@@ -40,4 +40,5 @@ nav li a:hover {
 
 #jumbotron {
   height: 100vh;
+  grid-column: 2 / 3;
 }

@@ -15,7 +15,7 @@
   \**********************/
 /***/ (() => {
 
-eval("// import loadPage from './modules/initial-page-load';\n// import toDoInitialize from './modules/todo-items';\n\n// init();\n\n// function init() {\n//   loadPage();\n  \n\n// }\n\n//# sourceURL=webpack://todo/./src/index.js?");
+eval("// import loadPage from './modules/initial-page-load';\n// import toDoInitialize from './modules/todo-items';\n\n// init();\n\n// function init() {\n//   loadPage();\n  \n\n// }\n\nfunction createCheckBox(id, text) {\n  const checkBoxDiv = document.createElement('div');\n  checkBoxDiv.setAttribute('id', id)\n  const checkBox = document.createElement('h2');\n  checkBox.textContent = text;\n  checkBoxDiv.appendChild(checkBox);\n  return checkBoxDiv;\n}\n\nfunction toggleCheck(evt) {\n  if (evt.target.innerHTML == '☐') {\n    evt.target.innerHTML = '☑'\n  }\n  else {\n    evt.target.innerHTML = '☐'\n  }\n}\n\ncontent = document.getElementById('jumbotron');\nconst checkBox = createCheckBox('checkBox', '☐');\ncontent.appendChild(checkBox);\ncheckBox.addEventListener('click', toggleCheck);\n\n//# sourceURL=webpack://todo/./src/index.js?");
 
 /***/ })
 
