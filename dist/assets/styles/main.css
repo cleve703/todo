@@ -41,3 +41,34 @@ nav li a:hover {
 #checkBox:hover {
   cursor: pointer;
 }
+.task-ul {
+  list-style: none;
+  margin-left: 0;
+}
+.task-ul > li {
+  padding-left: 10px;
+}
+.project-div {
+  background-color: lightgray;
+  border-radius: 5px;
+  padding: 5px;
+}
+.add-task-label {
+  color: gray;
+  margin-left: 10px;
+}
+.add-input-li {
+  display: none;
+}
+.add-task-button {
+  border: none;
+  background: none;
+  color: rgb(111, 111, 222);
+  margin: 0;
+}
+.add-task-button:hover {
+  background: rgb(111, 111, 222);
+  color: white;
+  border-radius: 100%;
+  cursor: pointer;
+}
