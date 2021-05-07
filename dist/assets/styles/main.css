@@ -71,3 +71,12 @@ nav li a:hover {
   border-radius: 100%;
   cursor: pointer;
 }
+.check-box:hover {
+  cursor: pointer;
+}
+.task-list-description-complete, .task-list-description {
+  margin-left: 10px;
+}
+.task-list-description-complete {
+  text-decoration: line-through;
+}

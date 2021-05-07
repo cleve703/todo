@@ -56,8 +56,29 @@ function createTaskListItems(task) {
   const taskList = document.getElementById('task-ul-' + task.project);
   const taskListItem = document.createElement('li');
   taskListItem.setAttribute('id', 'task-list-item' + task.id);
-  taskListItem.textContent = '☐ ' + task.description;
+  var checkBox = document.createElement('span');
+  checkBox.setAttribute('id', 'task-list-checkbox-' + task.id);
+  checkBox.setAttribute('class', 'check-box');
+  checkBox.textContent = '☐';
+  checkBox.addEventListener('click', toggleTask)
+  var taskListDescription = document.createElement('span');
+  taskListDescription.setAttribute('id', 'task-list-description-' + task.id);
+  taskListDescription.setAttribute('class', 'task-list-description')
+  taskListDescription.textContent = task.description;
   taskList.appendChild(taskListItem);
+  taskListItem.appendChild(checkBox);
+  taskListItem.appendChild(taskListDescription);
+}
+
+function toggleTask() {
+  if (this.textContent == "☐") {
+    this.textContent = "☑"
+    this.parentElement.lastChild.setAttribute('class', 'task-list-description-complete')
+  }
+  else {
+    this.textContent = "☐"
+    this.parentElement.lastChild.setAttribute('class', 'task-list-description')
+  }
 }
 
 function createAddTaskButton(project) {
