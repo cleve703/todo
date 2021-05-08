@@ -80,3 +80,6 @@ nav li a:hover {
 .task-list-description-complete {
   text-decoration: line-through;
 }
+#add-project-div > input {
+  margin-left: 10px;
+}

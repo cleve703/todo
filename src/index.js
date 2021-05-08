@@ -34,7 +34,7 @@ function initProjects() {
   }
 }
 
-function createProjectDiv(proj) {
+function buildProjectDiv(proj) {
   const projectContainer = document.getElementById('jumbotron');
   const projectDiv = document.createElement('div');
   projectDiv.setAttribute('id', 'project-' + proj.id + '-div');
@@ -46,13 +46,13 @@ function createProjectDiv(proj) {
   taskUl.setAttribute('class', 'task-ul');
   projectDiv.appendChild(taskUl);
   if (proj.tasks.length > 0) {
-    proj.tasks.forEach(createTaskListItems)
+    proj.tasks.forEach(buildTaskListItems)
   }
   createAddTaskButton(proj);
   createInputField(proj);
 }
 
-function createTaskListItems(task) {
+function buildTaskListItems(task) {
   const taskList = document.getElementById('task-ul-' + task.project);
   const taskListItem = document.createElement('li');
   taskListItem.setAttribute('id', 'task-list-item' + task.id);
@@ -133,21 +133,54 @@ function createInputField(project) {
   const taskInput = document.createElement('input');
   taskInput.setAttribute('id', 'task-input-to-project-' + project.id);
   taskInput.setAttribute('name', 'task-description')
-  const taskSaveButton = document.createElement('button');
-  taskSaveButton.setAttribute('id', 'save-to-project-' + project.id);
-  taskSaveButton.setAttribute('class', 'save-button');
-  taskSaveButton.textContent = 'Save';
+  const taskSaveButton = createSaveButton('save-to-project-' + project.id);
   taskSaveButton.addEventListener('click', saveNewTask);
   taskSaveButton.addEventListener('click', toggleInputFieldOff);
-  const taskCancelButton = document.createElement('button');
-  taskCancelButton.setAttribute('id', 'cancel-add-to-project-' + project.id);
-  taskCancelButton.setAttribute('class', 'cancel-button');
-  taskCancelButton.textContent = 'Cancel';
+  const taskCancelButton = createCancelButton('cancel-add-to-project-' + project.id);
   taskCancelButton.addEventListener('click', toggleInputFieldOff)
   taskUl.appendChild(addInputLi);
   addInputLi.appendChild(taskInput);
   addInputLi.appendChild(taskSaveButton);
   addInputLi.appendChild(taskCancelButton);
+}
+
+function createAddProjectDiv() {
+  const projectContainer = document.getElementById('jumbotron');
+  const addProjectDiv = document.createElement('div');
+  addProjectDiv.setAttribute('class', 'project-div');
+  addProjectDiv.setAttribute('id', 'add-project-div');
+  projectContainer.appendChild(addProjectDiv);
+  const projectInput = document.createElement('input');
+  projectInput.setAttribute('id', 'new-project-input');
+  projectInput.setAttribute('name', 'project-description');
+  const saveProjectButton = createSaveButton('new-project');
+  const cancelProjectButton = createCancelButton('new-project')
+  addProjectDiv.appendChild(projectInput);
+  addProjectDiv.appendChild(saveProjectButton);
+  addProjectDiv.appendChild(cancelProjectButton);
+  saveProjectButton.addEventListener('click', saveNewProject);
+}
+
+function saveNewProject() {
+  var projectDesc = this.parentElement.firstChild.value;
+  var task = createProject(projectDesc);
+  displayProjects();
+}
+
+function createSaveButton(id) {
+  taskSaveButton = document.createElement('button')
+  taskSaveButton.setAttribute('id', id);
+  taskSaveButton.setAttribute('class', 'save-button');
+  taskSaveButton.textContent = 'Save';
+  return taskSaveButton;
+}
+
+function createCancelButton(id) {
+  taskCancelButton = document.createElement('button')
+  taskCancelButton.setAttribute('id', id);
+  taskCancelButton.setAttribute('class', 'cancel-button');
+  taskCancelButton.textContent = 'Cancel';
+  return taskCancelButton;
 }
 
 function saveNewTask() {
@@ -166,7 +199,8 @@ function clearProjects() {
 
 function displayProjects() {
   clearProjects();
-  allProjects.forEach(createProjectDiv);
+  allProjects.forEach(buildProjectDiv);
+  createAddProjectDiv()
 }
 
 initProjects();
