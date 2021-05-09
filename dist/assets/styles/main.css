@@ -60,18 +60,7 @@ nav li a:hover {
 .add-input-li {
   display: none;
 }
-.add-task-button {
-  border: none;
-  background: none;
-  color: rgb(111, 111, 222);
-}
-.add-task-button:hover {
-  background: rgb(111, 111, 222);
-  color: white;
-  border-radius: 100%;
-  cursor: pointer;
-}
-.check-box:hover {
+.checkbox-span:hover {
   cursor: pointer;
 }
 .task-list-description-complete, .task-list-description {
@@ -93,4 +82,18 @@ nav li a:hover {
 
 .project {
   padding: 120px;
+}
+
+.add-task-button-span {
+  margin-right: 10px;
+}
+.add-task-button-span > svg {
+  color: rgb(111, 111, 222);
+}
+
+.add-task-button-span > svg:hover {
+  color: black;
+  background-color: rgb(111, 111, 222);
+  border-radius: 100%;
+  cursor: pointer;
 }

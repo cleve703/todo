@@ -24,8 +24,29 @@ function buildProjectsHtml () {
     buildTaskList(projectTaskArray, projectUl);
     // add li for adding a new task
     const addTaskLi = createHtmlElement('li', 'add-task-li', 'add-task-li-' + e.id);
-    addTaskLi.textContent = 'Add task';
+    const addTaskButton = createHtmlElement('span', 'add-task-button-span', 'add-task-button-span-' + e.id);
+    addTaskButton.innerHTML = '<svg width="13" height="13"><path d="M6 6V.5a.5.5 0 0 1 1 0V6h5.5a.5.5 0 1 1 0 1H7v5.5a.5.5 0 1 1-1 0V7H.5a.5.5 0 0 1 0-1H6z" fill="currentColor" fill-rule="evenodd"></path></svg>'
+    addTaskButton.addEventListener('click', toggleInputFieldOn)
+    const addTaskDesc = createHtmlElement('span', 'add-task-desc-span', 'add-task-desc-span-' + e.id);
+    addTaskDesc.textContent = "Add task";
+    const addTaskFormLi = createHtmlElement('li', 'add-task-form-li', 'add-task-form-li-' + e.id);
+    addTaskFormLi.setAttribute('style', 'display: none')
+    const addTaskFormTextInput = createHtmlElement('input', 'add-task-form-text-input', 'add-task-form-text-input-' + e.id);
+    addTaskFormTextInput.setAttribute('type', 'text');
+    addTaskFormTextInput.setAttribute('name', 'new-task-description');
+    const addTaskFormSubmitButton = createHtmlElement('input', 'button submit-button', 'submit-button-' + e.id);
+    addTaskFormSubmitButton.setAttribute('type', 'submit');
+    addTaskFormSubmitButton.setAttribute('value', 'Save');
+    const addTaskFormCancelButton = createHtmlElement('input', 'button cancel-button', 'cancel-button-' + e.id);
+    addTaskFormCancelButton.setAttribute('value', 'Cancel');
+    addTaskFormCancelButton.setAttribute('type', 'button');
+    addTaskFormLi.appendChild(addTaskFormTextInput);
+    addTaskFormLi.appendChild(addTaskFormSubmitButton);
+    addTaskFormLi.appendChild(addTaskFormCancelButton);
     projectUl.appendChild(addTaskLi);     
+    projectUl.appendChild(addTaskFormLi);
+    addTaskLi.appendChild(addTaskButton);
+    addTaskLi.appendChild(addTaskDesc);
     mainScreen.appendChild(projectDiv);
   });
 }
@@ -48,6 +69,13 @@ function buildTaskList(projectTaskArray, projectUl) {
     taskLi.appendChild(checkBoxSpan);
     taskLi.appendChild(taskSpan);
   })
+}
+
+function toggleInputFieldOn() {
+  const projectId = this.id.replace('add-task-button-span-', '');
+  document.getElementById('add-task-button-span-' + projectId).setAttribute('style', 'display: none');
+  document.getElementById('add-task-desc-span-' + projectId).setAttribute('style', 'display: none');
+  document.getElementById('add-task-form-li-' + projectId).setAttribute('style', 'display: block')
 }
 
 function createHtmlElement(elementName, elementClass, elementId) {
