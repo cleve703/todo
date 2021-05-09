@@ -41,7 +41,7 @@ nav li a:hover {
 #checkBox:hover {
   cursor: pointer;
 }
-.task-ul {
+.task-ul, .project-div {
   list-style: none;
   margin-left: 0;
 }
@@ -82,4 +82,15 @@ nav li a:hover {
 }
 #add-project-div > input {
   margin-left: 10px;
+}
+.checkbox-span {
+  margin-right: 10px;
+}
+
+.task-span.complete {
+  text-decoration: line-through;
+}
+
+.project {
+  padding: 120px;
 }
