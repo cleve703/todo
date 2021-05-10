@@ -40,6 +40,7 @@ function buildProjectsHtml () {
     const addTaskFormCancelButton = createHtmlElement('input', 'button cancel-button', 'cancel-button-' + e.id);
     addTaskFormCancelButton.setAttribute('value', 'Cancel');
     addTaskFormCancelButton.setAttribute('type', 'button');
+    addTaskFormCancelButton.addEventListener('click', toggleInputFieldOff);
     addTaskFormLi.appendChild(addTaskFormTextInput);
     addTaskFormLi.appendChild(addTaskFormSubmitButton);
     addTaskFormLi.appendChild(addTaskFormCancelButton);
@@ -76,6 +77,13 @@ function toggleInputFieldOn() {
   document.getElementById('add-task-button-span-' + projectId).setAttribute('style', 'display: none');
   document.getElementById('add-task-desc-span-' + projectId).setAttribute('style', 'display: none');
   document.getElementById('add-task-form-li-' + projectId).setAttribute('style', 'display: block')
+}
+
+function toggleInputFieldOff() {
+  const projectId = this.id.replace('cancel-button-', '');
+  document.getElementById('add-task-button-span-' + projectId).setAttribute('style', 'display: inline');
+  document.getElementById('add-task-desc-span-' + projectId).setAttribute('style', 'display: inline');
+  document.getElementById('add-task-form-li-' + projectId).setAttribute('style', 'display: none')
 }
 
 function createHtmlElement(elementName, elementClass, elementId) {
