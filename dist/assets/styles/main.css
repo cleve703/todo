@@ -85,16 +85,23 @@ nav li a:hover {
   padding: 120px;
 }
 
-.add-task-button-span {
+.add-task-button-span,
+.add-project-button-span {
   margin-right: 10px;
 }
-.add-task-button-span > svg {
+.add-task-button-span > svg,
+.add-project-button-span > svg {
   color: rgb(111, 111, 222);
 }
 
-.add-task-button-span > svg:hover {
+.add-task-button-span > svg:hover,
+.add-project-button-span > svg:hover {
   color: black;
   background-color: rgb(111, 111, 222);
   border-radius: 100%;
   cursor: pointer;
+}
+
+#add-new-project-div.project-div {
+  background-color: rgb(250,177,159);
 }

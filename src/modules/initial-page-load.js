@@ -23,38 +23,22 @@ function buildProjectsHtml () {
     const projectTaskArray = buildTaskArray(e.id);
     buildTaskList(projectTaskArray, projectUl);
     // add li for adding a new task
-    const addTaskLi = createHtmlElement('li', 'add-task-li', 'add-task-li-' + e.id);
-    const addTaskButton = createHtmlElement('span', 'add-task-button-span', 'add-task-button-span-' + e.id);
-    addTaskButton.innerHTML = '<svg width="13" height="13"><path d="M6 6V.5a.5.5 0 0 1 1 0V6h5.5a.5.5 0 1 1 0 1H7v5.5a.5.5 0 1 1-1 0V7H.5a.5.5 0 0 1 0-1H6z" fill="currentColor" fill-rule="evenodd"></path></svg>'
-    addTaskButton.addEventListener('click', toggleInputFieldOn)
-    const addTaskDesc = createHtmlElement('span', 'add-task-desc-span', 'add-task-desc-span-' + e.id);
-    addTaskDesc.textContent = "Add task";
-    const addTaskFormLi = createHtmlElement('li', 'add-task-form-li', 'add-task-form-li-' + e.id);
-    addTaskFormLi.setAttribute('style', 'display: none')
-    const addTaskFormTextInput = createHtmlElement('input', 'add-task-form-text-input', 'add-task-form-text-input-' + e.id);
-    addTaskFormTextInput.setAttribute('type', 'text');
-    addTaskFormTextInput.setAttribute('name', 'new-task-description');
-    const addTaskFormSubmitButton = createHtmlElement('input', 'button submit-button', 'submit-button-' + e.id);
-    addTaskFormSubmitButton.setAttribute('type', 'submit');
-    addTaskFormSubmitButton.setAttribute('value', 'Save');
-    addTaskFormSubmitButton.addEventListener('click', saveNewTask);
-    const addTaskFormCancelButton = createHtmlElement('input', 'button cancel-button', 'cancel-button-' + e.id);
-    addTaskFormCancelButton.setAttribute('value', 'Cancel');
-    addTaskFormCancelButton.setAttribute('type', 'button');
-    addTaskFormCancelButton.addEventListener('click', toggleInputFieldOff);
-    addTaskFormLi.appendChild(addTaskFormTextInput);
-    addTaskFormLi.appendChild(addTaskFormSubmitButton);
-    addTaskFormLi.appendChild(addTaskFormCancelButton);
-    projectUl.appendChild(addTaskLi);     
-    projectUl.appendChild(addTaskFormLi);
-    addTaskLi.appendChild(addTaskButton);
-    addTaskLi.appendChild(addTaskDesc);
-    // mainScreen.appendChild(projectDiv);
-  });
-  const addNewProject = createHtmlElement('li', 'add-new-project-li', 'ad-new-project-li');
-  addNewProject.textContent = 'Add new project';
-  projectList.appendChild(addNewProject);
+    const newTaskPrompt = createInputPrompt('task', e.id);
+    const newTaskForm = createInputForm('task', e.id);
+    projectUl.appendChild(newTaskPrompt);     
+    projectUl.appendChild(newTaskForm);
 
+  });
+  const addNewProject = createHtmlElement('li', 'project-li', 'add-new-project-li');
+  const addNewProjectDiv = createHtmlElement('div', 'project-div', 'add-new-project-div');
+  const addNewProjectUl = createHtmlElement('ul', 'add-project-ul', 'add-project-ul');
+  const addNewProjectPrompt = createInputPrompt('project', '0');
+  const addNewProjectForm = createInputForm('project', '0');
+  addNewProjectUl.appendChild(addNewProjectPrompt);
+  addNewProjectUl.appendChild(addNewProjectForm);
+  projectList.appendChild(addNewProject);
+  addNewProject.appendChild(addNewProjectDiv);
+  addNewProjectDiv.appendChild(addNewProjectUl);
 }
 
 function buildTaskList(projectTaskArray, projectUl) {
@@ -77,6 +61,38 @@ function buildTaskList(projectTaskArray, projectUl) {
   })
 }
 
+function createInputPrompt(formObjectType, formObjectId) {
+  const thisPromptLi = createHtmlElement('li', 'add-' + formObjectType + '-li', 'add-' + formObjectType + '-li-' + formObjectId);
+    const addButton = createHtmlElement('span', 'add-' + formObjectType + '-button-span', 'add-' + formObjectType + '-button-span-' + formObjectId);
+    addButton.innerHTML = '<svg width="13" height="13"><path d="M6 6V.5a.5.5 0 0 1 1 0V6h5.5a.5.5 0 1 1 0 1H7v5.5a.5.5 0 1 1-1 0V7H.5a.5.5 0 0 1 0-1H6z" fill="currentColor" fill-rule="evenodd"></path></svg>'
+    addButton.addEventListener('click', toggleInputFieldOn)
+    const addDesc = createHtmlElement('span', 'add-' + formObjectType + '-desc-span', 'add-' + formObjectType + '-desc-span-' + formObjectId);
+    addDesc.textContent = "Add " + formObjectType;
+    thisPromptLi.appendChild(addButton);
+    thisPromptLi.appendChild(addDesc);
+    return thisPromptLi;
+  }
+  
+  function createInputForm(formObjectType, formObjectId) {
+    const thisFormLi = createHtmlElement('li', 'add-' + formObjectType + '-form-li', 'add-' + formObjectType + '-form-li-' + formObjectId);
+    thisFormLi.setAttribute('style', 'display: none')
+    const addFormTextInput = createHtmlElement('input', 'add-' + formObjectType + '-form-text-input', 'add-' + formObjectType + '-form-text-input-' + formObjectId);
+    addFormTextInput.setAttribute('type', 'text');
+    addFormTextInput.setAttribute('name', 'new-' + formObjectType + '-description');
+    const addFormSubmitButton = createHtmlElement('input', 'button submit-button', 'submit-button-' + formObjectId);
+    addFormSubmitButton.setAttribute('type', 'submit');
+    addFormSubmitButton.setAttribute('value', 'Save');
+    addFormSubmitButton.addEventListener('click', saveNewTask);
+    const addFormCancelButton = createHtmlElement('input', 'button cancel-button', 'cancel-button-' + formObjectType + '-' + formObjectId);
+    addFormCancelButton.setAttribute('value', 'Cancel');
+    addFormCancelButton.setAttribute('type', 'button');
+    addFormCancelButton.addEventListener('click', toggleInputFieldOff);
+    thisFormLi.appendChild(addFormTextInput);
+    thisFormLi.appendChild(addFormSubmitButton);
+    thisFormLi.appendChild(addFormCancelButton);
+    return thisFormLi;
+}
+
 function saveNewTask() {
   var projectId = this.id.replace('submit-button-', '');
   console.log(projectId);
@@ -88,17 +104,22 @@ function saveNewTask() {
 }
 
 function toggleInputFieldOn() {
-  const projectId = this.id.replace('add-task-button-span-', '');
-  document.getElementById('add-task-button-span-' + projectId).setAttribute('style', 'display: none');
-  document.getElementById('add-task-desc-span-' + projectId).setAttribute('style', 'display: none');
-  document.getElementById('add-task-form-li-' + projectId).setAttribute('style', 'display: block')
+  var inputFieldType;
+  if (this.id.includes('project')) { inputFieldType = 'project' } else { inputFieldType = 'task'};
+  const projectId = this.id.replace('add-' + inputFieldType + '-button-span-', '');
+  document.getElementById('add-' + inputFieldType + '-button-span-' + projectId).setAttribute('style', 'display: none');
+  document.getElementById('add-' + inputFieldType + '-desc-span-' + projectId).setAttribute('style', 'display: none');
+  document.getElementById('add-' + inputFieldType + '-form-li-' + projectId).setAttribute('style', 'display: block')
 }
 
 function toggleInputFieldOff() {
-  const projectId = this.id.replace('cancel-button-', '');
-  document.getElementById('add-task-button-span-' + projectId).setAttribute('style', 'display: inline');
-  document.getElementById('add-task-desc-span-' + projectId).setAttribute('style', 'display: inline');
-  document.getElementById('add-task-form-li-' + projectId).setAttribute('style', 'display: none')
+  var inputFieldType;
+  if (this.id.includes('project')) { inputFieldType = 'project' } else { inputFieldType = 'task'};
+  const projectId = this.id.replace('cancel-button-' + inputFieldType + '-', '');
+  console.log(projectId);
+  document.getElementById('add-' + inputFieldType + '-button-span-' + projectId).setAttribute('style', 'display: inline');
+  document.getElementById('add-' + inputFieldType + '-desc-span-' + projectId).setAttribute('style', 'display: inline');
+  document.getElementById('add-' + inputFieldType + '-form-li-' + projectId).setAttribute('style', 'display: none')
 }
 
 function createHtmlElement(elementName, elementClass, elementId) {
