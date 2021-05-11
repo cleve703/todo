@@ -2,23 +2,23 @@ import { allProjects, allTasks, toggleTaskComplete, createTask, createProject } 
 
 function buildProjectsHtml () {
   let mainScreen = document.getElementById('jumbotron');
+  // create list to contain all projects as li and sublist for each set of tasks
+  const projectList = createHtmlElement('ul', 'project-list', 'project-list');
+  mainScreen.appendChild(projectList);
   allProjects.forEach(e => {
-    // create list to contain all projects as li and sublist for each set of tasks
-    const projectList = createHtmlElement('ul', 'project-list', 'project-list')
-    mainScreen.appendChild(projectList);
-    // create div for each project
-    const projectDiv = createHtmlElement('div', 'project-div', 'project-div-' + e.id);
-    projectList.appendChild(projectDiv);
     // create list item for each project
     const project = createHtmlElement('li', 'project-li', 'project-li-' + e.id);
-    projectDiv.appendChild(project);
+    projectList.appendChild(project);
+    // create div for each project
+    const projectDiv = createHtmlElement('div', 'project-div', 'project-div-' + e.id);
+    project.appendChild(projectDiv);
     // create project description as first li
     const projectNameLi = createHtmlElement('li', 'project-name', 'project-name-' + e.id);
     projectNameLi.textContent = e.description;
-    project.appendChild(projectNameLi);
+    projectDiv.appendChild(projectNameLi);
     // create nested ul of tasks for each project
     const projectUl = createHtmlElement('ul', 'project-task-list', 'project-task-list-' + e.id);
-    project.appendChild(projectUl);
+    projectDiv.appendChild(projectUl);
     // add li for each task within each nested ul
     const projectTaskArray = buildTaskArray(e.id);
     buildTaskList(projectTaskArray, projectUl);
@@ -49,8 +49,12 @@ function buildProjectsHtml () {
     projectUl.appendChild(addTaskFormLi);
     addTaskLi.appendChild(addTaskButton);
     addTaskLi.appendChild(addTaskDesc);
-    mainScreen.appendChild(projectDiv);
+    // mainScreen.appendChild(projectDiv);
   });
+  const addNewProject = createHtmlElement('li', 'add-new-project-li', 'ad-new-project-li');
+  addNewProject.textContent = 'Add new project';
+  projectList.appendChild(addNewProject);
+
 }
 
 function buildTaskList(projectTaskArray, projectUl) {

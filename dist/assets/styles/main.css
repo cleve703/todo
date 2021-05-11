@@ -52,6 +52,7 @@ nav li a:hover {
   background-color: lightgray;
   border-radius: 5px;
   padding: 5px;
+  margin-bottom: 10px;
 }
 .add-task-label {
   color: gray;
