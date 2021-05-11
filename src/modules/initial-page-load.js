@@ -1,4 +1,4 @@
-import { allProjects, allTasks, toggleTaskComplete } from './logic'
+import { allProjects, allTasks, toggleTaskComplete, createTask, createProject } from './logic'
 
 function buildProjectsHtml () {
   let mainScreen = document.getElementById('jumbotron');
@@ -37,6 +37,7 @@ function buildProjectsHtml () {
     const addTaskFormSubmitButton = createHtmlElement('input', 'button submit-button', 'submit-button-' + e.id);
     addTaskFormSubmitButton.setAttribute('type', 'submit');
     addTaskFormSubmitButton.setAttribute('value', 'Save');
+    addTaskFormSubmitButton.addEventListener('click', saveNewTask);
     const addTaskFormCancelButton = createHtmlElement('input', 'button cancel-button', 'cancel-button-' + e.id);
     addTaskFormCancelButton.setAttribute('value', 'Cancel');
     addTaskFormCancelButton.setAttribute('type', 'button');
@@ -70,6 +71,16 @@ function buildTaskList(projectTaskArray, projectUl) {
     taskLi.appendChild(checkBoxSpan);
     taskLi.appendChild(taskSpan);
   })
+}
+
+function saveNewTask() {
+  var projectId = this.id.replace('submit-button-', '');
+  console.log(projectId);
+  var newTaskDescription = document.getElementById('add-task-form-text-input-' + projectId).value;
+  console.log(newTaskDescription);
+  createTask(newTaskDescription, projectId);
+  clearJumbotron();
+  buildProjectsHtml();
 }
 
 function toggleInputFieldOn() {
