@@ -27,11 +27,6 @@ function createTask(description, project, id=taskCounter) {
 function initProjects() {
   if (allProjects.length == 0) {
     createProject('Welcome');
-    createTask('eat', '0');
-    createTask('sleep', '0');
-    createProject('Exercise');
-    createTask('pushups', '1');
-    createTask('pullups', '1');
   }
 }
 

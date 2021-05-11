@@ -99,9 +99,7 @@ function createInputPrompt(formObjectType, formObjectId) {
 
 function saveNewTask() {
   var projectId = this.id.replace('submit-button-', '');
-  console.log(projectId);
   var newTaskDescription = document.getElementById('add-task-form-text-input-' + projectId).value;
-  console.log(newTaskDescription);
   createTask(newTaskDescription, projectId);
   clearJumbotron();
   buildProjectsHtml();
@@ -109,7 +107,6 @@ function saveNewTask() {
 
 function saveNewProject() {
   var newTaskDescription = document.getElementById('add-project-form-text-input-0').value;
-  console.log(newTaskDescription);
   createProject(newTaskDescription);
   clearJumbotron();
   buildProjectsHtml();
@@ -128,7 +125,6 @@ function toggleInputFieldOff() {
   var inputFieldType;
   if (this.id.includes('project')) { inputFieldType = 'project' } else { inputFieldType = 'task'};
   const projectId = this.id.replace('cancel-button-' + inputFieldType + '-', '');
-  console.log(projectId);
   document.getElementById('add-' + inputFieldType + '-button-span-' + projectId).setAttribute('style', 'display: inline');
   document.getElementById('add-' + inputFieldType + '-desc-span-' + projectId).setAttribute('style', 'display: inline');
   document.getElementById('add-' + inputFieldType + '-form-li-' + projectId).setAttribute('style', 'display: none')
