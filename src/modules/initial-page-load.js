@@ -82,7 +82,11 @@ function createInputPrompt(formObjectType, formObjectId) {
     const addFormSubmitButton = createHtmlElement('input', 'button submit-button', 'submit-button-' + formObjectId);
     addFormSubmitButton.setAttribute('type', 'submit');
     addFormSubmitButton.setAttribute('value', 'Save');
-    addFormSubmitButton.addEventListener('click', saveNewTask);
+    if (formObjectType == 'task') {
+      addFormSubmitButton.addEventListener('click', saveNewTask);
+    } else {
+      addFormSubmitButton.addEventListener('click', saveNewProject);
+    }
     const addFormCancelButton = createHtmlElement('input', 'button cancel-button', 'cancel-button-' + formObjectType + '-' + formObjectId);
     addFormCancelButton.setAttribute('value', 'Cancel');
     addFormCancelButton.setAttribute('type', 'button');
@@ -99,6 +103,14 @@ function saveNewTask() {
   var newTaskDescription = document.getElementById('add-task-form-text-input-' + projectId).value;
   console.log(newTaskDescription);
   createTask(newTaskDescription, projectId);
+  clearJumbotron();
+  buildProjectsHtml();
+}
+
+function saveNewProject() {
+  var newTaskDescription = document.getElementById('add-project-form-text-input-0').value;
+  console.log(newTaskDescription);
+  createProject(newTaskDescription);
   clearJumbotron();
   buildProjectsHtml();
 }
