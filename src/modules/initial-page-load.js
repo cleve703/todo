@@ -14,7 +14,7 @@ function buildProjectsHtml () {
     project.appendChild(projectDiv);
     // create project description as first li
     const projectNameLi = createHtmlElement('li', 'project-name', 'project-name-' + e.id);
-    projectNameLi.textContent = e.description;
+    projectNameLi.textContent = e.title;
     projectDiv.appendChild(projectNameLi);
     // create nested ul of tasks for each project
     const projectUl = createHtmlElement('ul', 'project-task-list', 'project-task-list-' + e.id);
@@ -105,8 +105,10 @@ function createInputPrompt(formObjectType, formObjectId) {
     addFormCancelButton.setAttribute('type', 'button');
     addFormCancelButton.addEventListener('click', toggleInputFieldOff);
     thisFormLi.appendChild(addFormTitleInput);
-    thisFormLi.appendChild(addFormDescriptionInput);
-    thisFormLi.appendChild(priorityInput);
+    if (formObjectType == 'task') {
+      thisFormLi.appendChild(addFormDescriptionInput);
+      thisFormLi.appendChild(priorityInput);  
+    };
     thisFormLi.appendChild(addFormSubmitButton);
     thisFormLi.appendChild(addFormCancelButton);
     return thisFormLi;
@@ -123,7 +125,7 @@ function saveNewTask() {
 }
 
 function saveNewProject() {
-  var newTaskDescription = document.getElementById('add-project-form-text-input-0').value;
+  var newTaskDescription = document.getElementById('add-project-form-title-input-0').value;
   createProject(newTaskDescription);
   clearJumbotron();
   buildProjectsHtml();

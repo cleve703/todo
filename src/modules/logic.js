@@ -3,10 +3,10 @@ let taskCounter = 0;
 let allProjects = [];
 let allTasks = [];
 
-function createProject(description, id=projectCounter) {
+function createProject(title, id=projectCounter) {
   let project = Object.create(createProject.prototype);
   project.id = id;
-  project.description = description;
+  project.title = title;
   project.complete = false;
   project.tasks = [];
   projectCounter++;
