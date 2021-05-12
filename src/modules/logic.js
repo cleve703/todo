@@ -14,10 +14,11 @@ function createProject(description, id=projectCounter) {
   return project;
 }
 
-function createTask(title, description, project, id=taskCounter) {
+function createTask(title, description, priority, project, id=taskCounter) {
   let task = Object.create(createTask.prototype);
   task.title = title;
   task.description = description;
+  task.priority = priority;
   task.id = id;
   task.complete = false;
   task.project = project;

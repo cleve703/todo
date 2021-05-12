@@ -48,7 +48,7 @@ function buildTaskList(projectTaskArray, projectUl) {
     const checkBoxSpan = createHtmlElement('span', 'checkbox-span', 'checkbox-span-' + t.id);
     checkBoxSpan.textContent = checkbox;
     const taskSpan = createHtmlElement('span', 'task-span', 'id-span-' + t.id);
-    taskSpan.textContent = (t.title + " " + t.description);
+    taskSpan.textContent = (t.title + " " + t.description + " " + t.priority);
     if (t.complete) {
       taskLi.setAttribute('class', 'task-description-li complete');
       taskSpan.setAttribute('class', 'task-span complete');
@@ -82,6 +82,16 @@ function createInputPrompt(formObjectType, formObjectId) {
     const addFormDescriptionInput = createHtmlElement('input', 'add-' + formObjectType + '-form-description-input', 'add-' + formObjectType + '-form-description-input-' + formObjectId);
     addFormDescriptionInput.setAttribute('type', 'text');
     addFormDescriptionInput.setAttribute('name', 'new-' + formObjectType + '-description');
+    const priorityInput = createHtmlElement('select', 'select-' + formObjectType + '-priority', 'select-' + formObjectType + '-priority-' + formObjectId);
+    const optionP1 = createHtmlElement('option', 'select-priority-option', 'select-priority-option-1-project-' + formObjectId);
+    optionP1.textContent = 'Priority 1';
+    const optionP2 = createHtmlElement('option', 'select-priority-option', 'select-priority-option-2-project-' + formObjectId);
+    optionP2.textContent = 'Priority 2';
+    const optionP3 = createHtmlElement('option', 'select-priority-option', 'select-priority-option-3-project-' + formObjectId);
+    optionP3.textContent = 'Priority 3';
+    priorityInput.appendChild(optionP1);
+    priorityInput.appendChild(optionP2);    
+    priorityInput.appendChild(optionP3);
     const addFormSubmitButton = createHtmlElement('input', 'button submit-button', 'submit-button-' + formObjectId);
     addFormSubmitButton.setAttribute('type', 'submit');
     addFormSubmitButton.setAttribute('value', 'Save');
@@ -96,6 +106,7 @@ function createInputPrompt(formObjectType, formObjectId) {
     addFormCancelButton.addEventListener('click', toggleInputFieldOff);
     thisFormLi.appendChild(addFormTitleInput);
     thisFormLi.appendChild(addFormDescriptionInput);
+    thisFormLi.appendChild(priorityInput);
     thisFormLi.appendChild(addFormSubmitButton);
     thisFormLi.appendChild(addFormCancelButton);
     return thisFormLi;
@@ -105,7 +116,8 @@ function saveNewTask() {
   var projectId = this.id.replace('submit-button-', '');
   var newTaskTitle = document.getElementById('add-task-form-title-input-' + projectId).value;
   var newTaskDescription = document.getElementById('add-task-form-description-input-' + projectId).value;
-  createTask(newTaskTitle, newTaskDescription, projectId);
+  var newTaskPriority = document.getElementById('select-task-priority-'+ projectId).value;
+  createTask(newTaskTitle, newTaskDescription, newTaskPriority, projectId);
   clearJumbotron();
   buildProjectsHtml();
 }
