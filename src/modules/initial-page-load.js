@@ -48,7 +48,7 @@ function buildTaskList(projectTaskArray, projectUl) {
     const checkBoxSpan = createHtmlElement('span', 'checkbox-span', 'checkbox-span-' + t.id);
     checkBoxSpan.textContent = checkbox;
     const taskSpan = createHtmlElement('span', 'task-span', 'id-span-' + t.id);
-    taskSpan.textContent = t.description;
+    taskSpan.textContent = (t.title + " " + t.description);
     if (t.complete) {
       taskLi.setAttribute('class', 'task-description-li complete');
       taskSpan.setAttribute('class', 'task-span complete');
@@ -75,10 +75,13 @@ function createInputPrompt(formObjectType, formObjectId) {
   
   function createInputForm(formObjectType, formObjectId) {
     const thisFormLi = createHtmlElement('li', 'add-' + formObjectType + '-form-li', 'add-' + formObjectType + '-form-li-' + formObjectId);
-    thisFormLi.setAttribute('style', 'display: none')
-    const addFormTextInput = createHtmlElement('input', 'add-' + formObjectType + '-form-text-input', 'add-' + formObjectType + '-form-text-input-' + formObjectId);
-    addFormTextInput.setAttribute('type', 'text');
-    addFormTextInput.setAttribute('name', 'new-' + formObjectType + '-description');
+    thisFormLi.setAttribute('style', 'display: none');
+    const addFormTitleInput = createHtmlElement('input', 'add-' + formObjectType + '-form-title-input', 'add-' + formObjectType + '-form-title-input-' + formObjectId);
+    addFormTitleInput.setAttribute('type', 'text');
+    addFormTitleInput.setAttribute('name', 'new-' + formObjectType + '-title');
+    const addFormDescriptionInput = createHtmlElement('input', 'add-' + formObjectType + '-form-description-input', 'add-' + formObjectType + '-form-description-input-' + formObjectId);
+    addFormDescriptionInput.setAttribute('type', 'text');
+    addFormDescriptionInput.setAttribute('name', 'new-' + formObjectType + '-description');
     const addFormSubmitButton = createHtmlElement('input', 'button submit-button', 'submit-button-' + formObjectId);
     addFormSubmitButton.setAttribute('type', 'submit');
     addFormSubmitButton.setAttribute('value', 'Save');
@@ -91,7 +94,8 @@ function createInputPrompt(formObjectType, formObjectId) {
     addFormCancelButton.setAttribute('value', 'Cancel');
     addFormCancelButton.setAttribute('type', 'button');
     addFormCancelButton.addEventListener('click', toggleInputFieldOff);
-    thisFormLi.appendChild(addFormTextInput);
+    thisFormLi.appendChild(addFormTitleInput);
+    thisFormLi.appendChild(addFormDescriptionInput);
     thisFormLi.appendChild(addFormSubmitButton);
     thisFormLi.appendChild(addFormCancelButton);
     return thisFormLi;
@@ -99,8 +103,9 @@ function createInputPrompt(formObjectType, formObjectId) {
 
 function saveNewTask() {
   var projectId = this.id.replace('submit-button-', '');
-  var newTaskDescription = document.getElementById('add-task-form-text-input-' + projectId).value;
-  createTask(newTaskDescription, projectId);
+  var newTaskTitle = document.getElementById('add-task-form-title-input-' + projectId).value;
+  var newTaskDescription = document.getElementById('add-task-form-description-input-' + projectId).value;
+  createTask(newTaskTitle, newTaskDescription, projectId);
   clearJumbotron();
   buildProjectsHtml();
 }
