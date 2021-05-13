@@ -1,4 +1,4 @@
-import { allProjects, allTasks, toggleTaskComplete, createTask, createProject } from './logic'
+import { allProjects, allTasks, toggleTaskComplete, createTask, createProject, getTask } from './logic'
 
 function buildProjectsHtml () {
   let mainScreen = document.getElementById('jumbotron');
@@ -48,13 +48,13 @@ function buildTaskList(projectTaskArray, projectUl) {
     const checkBoxSpan = createHtmlElement('span', 'checkbox-span', 'checkbox-span-' + t.id);
     checkBoxSpan.textContent = checkbox;
     const taskSpan = createHtmlElement('span', 'task-span', 'id-span-' + t.id);
-    taskSpan.textContent = (t.title + " " + t.description + " " + t.priority);
+    taskSpan.textContent = (t.title + " " + t.description + " " + t.priority + " " + t.dueDate);
     if (t.complete) {
       taskLi.setAttribute('class', 'task-description-li complete');
       taskSpan.setAttribute('class', 'task-span complete');
       checkBoxSpan.setAttribute('class', 'checkbox-span complete')
     };
-    taskLi.addEventListener('click', toggleCompletion);
+    checkBoxSpan.addEventListener('click', toggleCompletion);
     projectUl.appendChild(taskLi);
     taskLi.appendChild(checkBoxSpan);
     taskLi.appendChild(taskSpan);
@@ -92,6 +92,11 @@ function createInputPrompt(formObjectType, formObjectId) {
     priorityInput.appendChild(optionP1);
     priorityInput.appendChild(optionP2);    
     priorityInput.appendChild(optionP3);
+    const dueDateInput = createHtmlElement('input', 'input-date', 'input-date-' + formObjectId);
+    dueDateInput.setAttribute('type', 'date');
+    dueDateInput.setAttribute('name', 'due-date');
+    var today = new Date().toISOString().substr(0,10);
+    dueDateInput.setAttribute('value', today);
     const addFormSubmitButton = createHtmlElement('input', 'button submit-button', 'submit-button-' + formObjectId);
     addFormSubmitButton.setAttribute('type', 'submit');
     addFormSubmitButton.setAttribute('value', 'Save');
@@ -107,7 +112,8 @@ function createInputPrompt(formObjectType, formObjectId) {
     thisFormLi.appendChild(addFormTitleInput);
     if (formObjectType == 'task') {
       thisFormLi.appendChild(addFormDescriptionInput);
-      thisFormLi.appendChild(priorityInput);  
+      thisFormLi.appendChild(priorityInput);
+      thisFormLi.appendChild(dueDateInput);
     };
     thisFormLi.appendChild(addFormSubmitButton);
     thisFormLi.appendChild(addFormCancelButton);
@@ -119,7 +125,8 @@ function saveNewTask() {
   var newTaskTitle = document.getElementById('add-task-form-title-input-' + projectId).value;
   var newTaskDescription = document.getElementById('add-task-form-description-input-' + projectId).value;
   var newTaskPriority = document.getElementById('select-task-priority-'+ projectId).value;
-  createTask(newTaskTitle, newTaskDescription, newTaskPriority, projectId);
+  var newTaskDueDate = document.getElementById('input-date-' + projectId).value;
+  createTask(newTaskTitle, newTaskDescription, newTaskPriority, newTaskDueDate, projectId);
   clearJumbotron();
   buildProjectsHtml();
 }
@@ -157,7 +164,7 @@ function createHtmlElement(elementName, elementClass, elementId) {
 }
 
 function toggleCompletion() {
-  var taskId = this.id.replace('task-description-li-', '');
+  var taskId = this.id.replace('checkbox-span-', '');
   toggleTaskComplete(taskId);
   clearJumbotron();
   buildProjectsHtml();

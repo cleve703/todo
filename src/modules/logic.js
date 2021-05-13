@@ -14,11 +14,12 @@ function createProject(title, id=projectCounter) {
   return project;
 }
 
-function createTask(title, description, priority, project, id=taskCounter) {
+function createTask(title, description, priority, dueDate, project, id=taskCounter) {
   let task = Object.create(createTask.prototype);
   task.title = title;
   task.description = description;
   task.priority = priority;
+  task.dueDate = dueDate;
   task.id = id;
   task.complete = false;
   task.project = project;
@@ -37,4 +38,8 @@ function toggleTaskComplete(taskId) {
   if (task.complete == true) { task.complete = false } else { task.complete = true };
 }
 
-export {allProjects, allTasks, createProject, createTask, initProjects, toggleTaskComplete }
+function getTask(taskId) {
+  return allTasks.find(t => t.id == taskId)
+}
+
+export {allProjects, allTasks, createProject, createTask, initProjects, toggleTaskComplete, getTask }
