@@ -71,7 +71,7 @@ nav li a:hover {
 .checkbox-span:hover {
   cursor: pointer;
 }
-.task-list-description-complete, .task-list-description {
+.task-span  , .task-list-description {
   margin-left: 10px;
 }
 .task-list-description-complete {
@@ -79,9 +79,6 @@ nav li a:hover {
 }
 #add-project-div > input {
   margin-left: 10px;
-}
-.checkbox-span {
-  margin-right: 10px;
 }
 
 .task-span.complete {

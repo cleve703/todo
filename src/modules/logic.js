@@ -34,12 +34,16 @@ function initProjects() {
 }
 
 function toggleTaskComplete(taskId) {
-  var task = allTasks.find(t => t.id == taskId)
+  var task = allTasks.find(t => t.id == taskId);
   if (task.complete == true) { task.complete = false } else { task.complete = true };
 }
 
-function getTask(taskId) {
-  return allTasks.find(t => t.id == taskId)
+function getTaskIndex(taskId) {
+  return allTasks.indexOf(allTasks.find(t => t.id == taskId));
 }
 
-export {allProjects, allTasks, createProject, createTask, initProjects, toggleTaskComplete, getTask }
+function deleteTask(taskId) {
+  allTasks.splice(getTaskIndex(taskId), 1);
+}
+
+export {allProjects, allTasks, createProject, createTask, initProjects, toggleTaskComplete, getTaskIndex, deleteTask }
