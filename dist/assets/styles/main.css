@@ -11,36 +11,38 @@ nav ul {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: rgb(111, 111, 222);
+  background-color: rgb(189, 189, 243);
 }
 nav li {
   float: left;
 }
 nav li a {
   display: block;
-  color: white;
+  color: rgb(40, 40, 141);
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
 }
 nav li a:hover {
-  background-color: #111;
+  background-color: rgb(39, 56, 133);
+  color:white;
 }
 #container {
   display: grid;
   grid-template-columns: 1fr 3fr;
 }
 #left-menu > *, #jumbotron > * {
-  margin: 15px
+  margin: 15px;
 }
 #left-menu {
-  height: 100vh;
+  height: 100%;
   grid-column: 1 / 2;
-  background-color: rgb(240, 240, 222);
+  background-color: rgb(245, 245, 237);
 }
 #jumbotron {
-  height: 100vh;
+  height: 100%;
   grid-column: 2 / 3;
+  background-color: rgb(230, 248, 243);
 }
 #checkBox:hover {
   cursor: pointer;
@@ -53,7 +55,8 @@ nav li a:hover {
   padding-left: 10px;
 }
 .project-div {
-  background-color: lightgray;
+  background-color: beige;
+  border: solid 1px cornflowerblue;
   border-radius: 5px;
   padding: 5px;
   margin-bottom: 10px;
@@ -89,6 +92,25 @@ nav li a:hover {
   padding: 120px;
 }
 
+
+.add-task-form-li > * {
+  border-radius: 5px;
+  height: 40px;
+}
+.add-task-form-li {
+  display: flex;
+}
+.add-task-form-title-input, .add-task-form-description-input {
+  flex-grow: 4;
+}
+.select-task-priority {
+  flex-grow: 3;
+}
+button {
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+}
 .add-task-button-span,
 .add-project-button-span {
   margin-right: 10px;
@@ -107,5 +129,5 @@ nav li a:hover {
 }
 
 #add-new-project-div.project-div {
-  background-color: rgb(250,177,159);
+  background-color: rgb(250,199,177);
 }

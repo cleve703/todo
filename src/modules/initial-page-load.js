@@ -15,6 +15,7 @@ function buildProjectsHtml () {
     // create project description as first li
     const projectNameLi = createHtmlElement('li', 'project-name', 'project-name-' + e.id);
     projectNameLi.textContent = e.title;
+    projectNameLi.innerHTML += '<hr style="margin-top: 1px; color: lightgray;"></hr>'
     projectDiv.appendChild(projectNameLi);
     // create nested ul of tasks for each project
     const projectUl = createHtmlElement('ul', 'project-task-list', 'project-task-list-' + e.id);
@@ -47,8 +48,17 @@ function buildTaskList(projectTaskArray, projectUl) {
     const taskLi = createHtmlElement('li', 'task-description-li', 'task-description-li-' + t.id)
     const checkBoxSpan = createHtmlElement('span', 'checkbox-span', 'checkbox-span-' + t.id);
     checkBoxSpan.textContent = checkbox;
-    const taskSpan = createHtmlElement('span', 'task-span', 'id-span-' + t.id);
-    taskSpan.textContent = (t.title + " " + t.description + " " + t.priority + " " + t.dueDate);
+    const taskTitleSpan = createHtmlElement('span', 'task-title-span', 'task-title-span-' + t.id);
+    taskTitleSpan.textContent = t.title;
+    const taskDescSpan = createHtmlElement('span', 'task-desc-span', 'task-desc-span-' + t.id);
+    taskDescSpan.textContent = t.description;
+    taskDescSpan.setAttribute('style', 'display: none');
+    const taskPrioritySpan = createHtmlElement('span', 'task-priority-span', 'task-priority-span-' + t.id);
+    taskPrioritySpan.textContent = t.priority;
+    taskPrioritySpan.setAttribute('style', 'display: none');
+    const taskDueDateSpan = createHtmlElement('span', 'task-due-date-span', 'task-due-date-span-' + t.id);
+    taskDueDateSpan.textContent = t.dueDate;
+    taskDueDateSpan.setAttribute('style', 'display: none');
     const deleteButton = createHtmlElement('button', 'delete-button', 'delete-button-' + t.id);
     const deleteSVG = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>';
     deleteButton.innerHTML = deleteSVG;
@@ -58,19 +68,28 @@ function buildTaskList(projectTaskArray, projectUl) {
     const viewButton = createHtmlElement('button', 'action-button view', 'view-button-' + t.id);
     const viewSVG = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
     viewButton.innerHTML = viewSVG;
-    taskSpan.appendChild(viewButton);
-    taskSpan.appendChild(editButton);
-    taskSpan.appendChild(deleteButton);
+    viewButton.addEventListener('click', displayTaskDetails)
     if (t.complete) {
       taskLi.setAttribute('class', 'task-description-li complete');
-      taskSpan.setAttribute('class', 'task-span complete');
+      taskTitleSpan.setAttribute('class', 'task-span complete');
       checkBoxSpan.setAttribute('class', 'checkbox-span complete')
     };
     checkBoxSpan.addEventListener('click', toggleCompletion);
     projectUl.appendChild(taskLi);
     taskLi.appendChild(checkBoxSpan);
-    taskLi.appendChild(taskSpan);
+    taskLi.appendChild(taskTitleSpan);
+    taskLi.appendChild(taskDescSpan);
+    taskLi.appendChild(taskPrioritySpan);
+    taskLi.appendChild(taskDueDateSpan);
+    taskLi.appendChild(viewButton);
+    taskLi.appendChild(editButton);
+    taskLi.appendChild(deleteButton);
   })
+}
+
+function displayTaskDetails() {
+  var taskId = this.id.replace('view-button-', '');
+  this.parentNode.childNodes.forEach(cn => { cn.setAttribute('style', 'display: inline-block')});
 }
 
 function createInputPrompt(formObjectType, formObjectId) {
@@ -91,9 +110,11 @@ function createInputPrompt(formObjectType, formObjectId) {
     const addFormTitleInput = createHtmlElement('input', 'add-' + formObjectType + '-form-title-input', 'add-' + formObjectType + '-form-title-input-' + formObjectId);
     addFormTitleInput.setAttribute('type', 'text');
     addFormTitleInput.setAttribute('name', 'new-' + formObjectType + '-title');
+    addFormTitleInput.setAttribute('placeholder', 'Title');
     const addFormDescriptionInput = createHtmlElement('input', 'add-' + formObjectType + '-form-description-input', 'add-' + formObjectType + '-form-description-input-' + formObjectId);
     addFormDescriptionInput.setAttribute('type', 'text');
     addFormDescriptionInput.setAttribute('name', 'new-' + formObjectType + '-description');
+    addFormDescriptionInput.setAttribute('placeholder', 'Description');
     const priorityInput = createHtmlElement('select', 'select-' + formObjectType + '-priority', 'select-' + formObjectType + '-priority-' + formObjectId);
     const optionP1 = createHtmlElement('option', 'select-priority-option', 'select-priority-option-1-project-' + formObjectId);
     optionP1.textContent = 'Priority 1';
@@ -156,7 +177,7 @@ function toggleInputFieldOn() {
   const projectId = this.id.replace('add-' + inputFieldType + '-button-span-', '');
   document.getElementById('add-' + inputFieldType + '-button-span-' + projectId).setAttribute('style', 'display: none');
   document.getElementById('add-' + inputFieldType + '-desc-span-' + projectId).setAttribute('style', 'display: none');
-  document.getElementById('add-' + inputFieldType + '-form-li-' + projectId).setAttribute('style', 'display: block')
+  document.getElementById('add-' + inputFieldType + '-form-li-' + projectId).setAttribute('style', 'display: inline-flex')
 }
 
 function toggleInputFieldOff() {
