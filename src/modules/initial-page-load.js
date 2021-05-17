@@ -115,6 +115,7 @@ function createInputPrompt(formObjectType, formObjectId) {
   function createInputForm(formObjectType, formObjectId) {
     const thisFormLi = createHtmlElement('li', 'add-' + formObjectType + '-form-li', 'add-' + formObjectType + '-form-li-' + formObjectId);
     thisFormLi.setAttribute('style', 'display: none');
+    const thisForm = createHtmlElement('div', 'add-' + formObjectType + '-form-div', 'add-' + formObjectType + 'form-div-' + formObjectId);
     const addFormTitleInput = createHtmlElement('input', 'add-' + formObjectType + '-form-title-input', 'add-' + formObjectType + '-form-title-input-' + formObjectId);
     addFormTitleInput.setAttribute('type', 'text');
     addFormTitleInput.setAttribute('name', 'new-' + formObjectType + '-title');
@@ -150,14 +151,15 @@ function createInputPrompt(formObjectType, formObjectId) {
     addFormCancelButton.setAttribute('value', 'Cancel');
     addFormCancelButton.setAttribute('type', 'button');
     addFormCancelButton.addEventListener('click', toggleInputFieldOff);
-    thisFormLi.appendChild(addFormTitleInput);
+    thisFormLi.appendChild(thisForm);
+    thisForm.appendChild(addFormTitleInput);
     if (formObjectType == 'task') {
-      thisFormLi.appendChild(addFormDescriptionInput);
-      thisFormLi.appendChild(priorityInput);
-      thisFormLi.appendChild(dueDateInput);
+      thisForm.appendChild(addFormDescriptionInput);
+      thisForm.appendChild(priorityInput);
+      thisForm.appendChild(dueDateInput);
     };
-    thisFormLi.appendChild(addFormSubmitButton);
-    thisFormLi.appendChild(addFormCancelButton);
+    thisForm.appendChild(addFormSubmitButton);
+    thisForm.appendChild(addFormCancelButton);
     return thisFormLi;
 }
 

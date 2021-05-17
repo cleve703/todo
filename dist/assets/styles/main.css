@@ -10,8 +10,6 @@ body {
   height: 100vh;
 }
 nav {
-  /* position: sticky; */
-  /* top: 0; */
   grid-column: 1 / 3; 
 }
 nav ul {
@@ -96,21 +94,38 @@ nav li a:hover {
 
 .add-task-form-li > * {
   border-radius: 5px;
-  height: 40px;
+  /* height: 40px; */
 }
-.add-task-form-li {
-  display: flex;
+.add-task-form-div {
+  margin-left: 25px;
+  padding: 10px;
+  background-color: mistyrose;
+  border: solid 1px cornflowerblue;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  overflow: hidden;
+  width: 100%;
+  grid-gap: 5px;
 }
-.add-task-form-title-input, .add-task-form-description-input {
-  flex-grow: 4;
+.add-task-form-title-input {
+  grid-column: 1 / 5;
+}
+.add-task-form-description-input {
+  grid-column: 1 / 5;
 }
 .select-task-priority {
-  flex-grow: 3;
+  grid-column: 1 / 2;
+}
+.project-name {
+  font-weight: bold;
 }
 button {
   border-radius: 5px;
   background-color: rgba(0, 0, 0, 0);
   border: none;
+}
+button:hover {
+  cursor: pointer;
 }
 .add-task-button-span,
 .add-project-button-span {
@@ -131,4 +146,8 @@ button {
 
 #add-new-project-div.project-div {
   background-color: rgb(250,199,177);
+}
+.submit-button, .cancel-button {
+  background-color: lightgray;
+  border-radius: 5px;
 }
