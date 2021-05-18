@@ -66,10 +66,11 @@ function buildTaskList(projectTaskArray, projectUl) {
     const editButton = createHtmlElement('button', 'action-button', 'edit-button-' + t.id);
     const editSVG = '<svg xmlns="http://www.w3.org/20 00/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>';
     editButton.innerHTML = editSVG;
+    editButton.addEventListener('click', displayEditForm);
     const viewButton = createHtmlElement('button', 'action-button view', 'view-button-' + t.id);
     const viewSVG = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
     viewButton.innerHTML = viewSVG;
-    viewButton.addEventListener('click', displayTaskDetails)
+    viewButton.addEventListener('click', displayTaskDetails);
     if (t.complete) {
       // taskLi.setAttribute('class', 'task-description-li complete');
       taskTitleSpan.className += ' complete';
@@ -99,6 +100,12 @@ function createTaskLi(t) {
     taskLi.className += ' complete';
   }
   return taskLi;
+}
+function displayEditForm() {
+  const taskId = this.id.replace('edit-button-','');
+  const taskLi = this.parentNode;
+  const editForm = createEditForm('task', taskId);
+  taskLi.appendChild(editForm);
 }
 
 function displayTaskDetails() {
@@ -176,6 +183,71 @@ function createInputPrompt(formObjectType, formObjectId) {
     thisForm.appendChild(addFormSubmitButton);
     thisForm.appendChild(addFormCancelButton);
     return thisFormLi;
+}
+
+function createEditForm(formObjectType, formObjectId) {
+  var thisObject;
+  if (formObjectType == 'task') {
+    thisObject = allTasks[formObjectId]
+  } else if (formObjectType == 'project') {
+    thisObject = allProjects[formObjectId]
+  };
+  const thisFormLi = createHtmlElement('li', 'edit-' + formObjectType + '-form-li', 'edit-' + formObjectType + '-form-li-' + formObjectId);
+  // thisFormLi.setAttribute('style', 'display: none');
+  const thisForm = createHtmlElement('div', 'edit-' + formObjectType + '-form-div', 'edit-' + formObjectType + 'form-div-' + formObjectId);
+  const addFormTitleInput = createHtmlElement('input', 'edit-' + formObjectType + '-form-title-input', 'edit-' + formObjectType + '-form-title-input-' + formObjectId);
+  addFormTitleInput.setAttribute('type', 'text');
+  addFormTitleInput.setAttribute('name', 'new-' + formObjectType + '-title');
+  addFormTitleInput.setAttribute('value', thisObject.title);
+  const addFormDescriptionInput = createHtmlElement('input', 'edit-' + formObjectType + '-form-description-input', 'edit-' + formObjectType + '-form-description-input-' + formObjectId);
+  addFormDescriptionInput.setAttribute('type', 'text');
+  addFormDescriptionInput.setAttribute('name', 'new-' + formObjectType + '-description');
+  addFormDescriptionInput.setAttribute('value', thisObject.description);
+  const priorityInput = createHtmlElement('select', 'select-' + formObjectType + '-priority', 'select-' + formObjectType + '-priority-' + formObjectId);
+  const optionP1 = createHtmlElement('option', 'select-priority-option', 'select-priority-option-1-project-' + formObjectId);
+  optionP1.textContent = 'Priority 1';
+  const optionP2 = createHtmlElement('option', 'select-priority-option', 'select-priority-option-2-project-' + formObjectId);
+  optionP2.textContent = 'Priority 2';
+  const optionP3 = createHtmlElement('option', 'select-priority-option', 'select-priority-option-3-project-' + formObjectId);
+  optionP3.textContent = 'Priority 3';
+  priorityInput.appendChild(optionP1);
+  priorityInput.appendChild(optionP2);    
+  priorityInput.appendChild(optionP3);
+  priorityInput.value = thisObject.priority;
+  const dueDateInput = createHtmlElement('input', 'input-date', 'input-date-' + formObjectId);
+  dueDateInput.setAttribute('type', 'date');
+  dueDateInput.setAttribute('name', 'due-date');
+  dueDateInput.setAttribute('value', thisObject.dueDate);
+  const addFormSubmitButton = createHtmlElement('input', 'button submit-button', 'submit-button-' + formObjectType + '-' + formObjectId);
+  addFormSubmitButton.setAttribute('type', 'submit');
+  addFormSubmitButton.setAttribute('value', 'Update');
+  if (formObjectType == 'task') {
+    addFormSubmitButton.addEventListener('click', updateTask);
+  } else {
+    addFormSubmitButton.addEventListener('click', updateProject);
+  }
+  const addFormCancelButton = createHtmlElement('input', 'button cancel-button', 'cancel-button-' + formObjectType + '-' + formObjectId);
+  addFormCancelButton.setAttribute('value', 'Cancel');
+  addFormCancelButton.setAttribute('type', 'button');
+  addFormCancelButton.addEventListener('click', toggleInputFieldOff);
+  thisFormLi.appendChild(thisForm);
+  thisForm.appendChild(addFormTitleInput);
+  if (formObjectType == 'task') {
+    thisForm.appendChild(addFormDescriptionInput);
+    thisForm.appendChild(priorityInput);
+    thisForm.appendChild(dueDateInput);
+  };
+  thisForm.appendChild(addFormSubmitButton);
+  thisForm.appendChild(addFormCancelButton);
+  return thisFormLi;
+}
+
+function updateTask() {
+  console.log(this);
+}
+
+function updateProject() {
+  console.log(this);
 }
 
 function saveNewTask() {
