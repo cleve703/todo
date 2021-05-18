@@ -22,6 +22,7 @@ function createTask(title, description, priority, dueDate, project, id=taskCount
   task.dueDate = dueDate;
   task.id = id;
   task.complete = false;
+  task.displayDetails = false;
   task.project = project;
   allTasks.push(task)
   taskCounter++;
@@ -38,6 +39,11 @@ function toggleTaskComplete(taskId) {
   if (task.complete == true) { task.complete = false } else { task.complete = true };
 }
 
+function toggleTaskDisplayDetails(taskId) {
+  var task = allTasks.find(t => t.id == taskId);
+  if (task.displayDetails == true) { task.displayDetails = false } else { task.displayDetails = true };
+}
+
 function getTaskIndex(taskId) {
   return allTasks.indexOf(allTasks.find(t => t.id == taskId));
 }
@@ -46,4 +52,4 @@ function deleteTask(taskId) {
   allTasks.splice(getTaskIndex(taskId), 1);
 }
 
-export {allProjects, allTasks, createProject, createTask, initProjects, toggleTaskComplete, getTaskIndex, deleteTask }
+export {allProjects, allTasks, createProject, createTask, initProjects, toggleTaskComplete, toggleTaskDisplayDetails, getTaskIndex, deleteTask }

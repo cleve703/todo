@@ -1,4 +1,4 @@
-import { allProjects, allTasks, toggleTaskComplete, createTask, createProject, getTaskIndex, deleteTask } from './logic'
+import { allProjects, allTasks, toggleTaskComplete, toggleDisplayDetails, createTask, createProject, getTaskIndex, deleteTask, toggleTaskDisplayDetails } from './logic'
 
 function buildProjectsHtml () {
   let mainScreen = document.getElementById('jumbotron');
@@ -45,20 +45,20 @@ function buildProjectsHtml () {
 function buildTaskList(projectTaskArray, projectUl) {
   projectTaskArray.forEach(t => {
     const checkbox = determineCheckboxStatus(t.complete);
-    const taskLi = createHtmlElement('li', 'task-description-li', 'task-description-li-' + t.id)
+    const taskLi = createTaskLi(t) 
     const checkBoxSpan = createHtmlElement('span', 'checkbox-span', 'checkbox-span-' + t.id);
     checkBoxSpan.textContent = checkbox;
     const taskTitleSpan = createHtmlElement('span', 'task-title-span task-span', 'task-title-span-' + t.id);
     taskTitleSpan.textContent = t.title;
     const taskDescSpan = createHtmlElement('span', 'task-desc-span task-span', 'task-desc-span-' + t.id);
     taskDescSpan.textContent = t.description;
-    taskDescSpan.setAttribute('style', 'display: none');
+    // taskDescSpan.setAttribute('style', 'display: none');
     const taskPrioritySpan = createHtmlElement('span', 'task-priority-span task-span', 'task-priority-span-' + t.id);
     taskPrioritySpan.textContent = t.priority;
-    taskPrioritySpan.setAttribute('style', 'display: none');
+    // taskPrioritySpan.setAttribute('style', 'display: none');
     const taskDueDateSpan = createHtmlElement('span', 'task-due-date-span task-span', 'task-due-date-span-' + t.id);
     taskDueDateSpan.textContent = t.dueDate;
-    taskDueDateSpan.setAttribute('style', 'display: none');
+    // taskDueDateSpan.setAttribute('style', 'display: none');
     const deleteButton = createHtmlElement('button', 'delete-button', 'delete-button-' + t.id);
     const deleteSVG = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>';
     deleteButton.innerHTML = deleteSVG;
@@ -71,8 +71,8 @@ function buildTaskList(projectTaskArray, projectUl) {
     viewButton.innerHTML = viewSVG;
     viewButton.addEventListener('click', displayTaskDetails)
     if (t.complete) {
-      taskLi.setAttribute('class', 'task-description-li complete');
-      taskTitleSpan.setAttribute('class', 'task-span complete');
+      // taskLi.setAttribute('class', 'task-description-li complete');
+      taskTitleSpan.className += ' complete';
       checkBoxSpan.setAttribute('class', 'checkbox-span complete')
     };
     checkBoxSpan.addEventListener('click', toggleCompletion);
@@ -88,9 +88,24 @@ function buildTaskList(projectTaskArray, projectUl) {
   })
 }
 
+function createTaskLi(t) {
+  var taskLi;
+  if (t.displayDetails == false) {
+    taskLi = createHtmlElement('li', 'task-description-li hide-details', 'task-description-li-' + t.id);
+  } else {
+    taskLi = createHtmlElement('li', 'task-description-li show-details', 'task-description-li-' + t.id);
+  }
+  if (t.complete == true) {
+    taskLi.className += ' complete';
+  }
+  return taskLi;
+}
+
 function displayTaskDetails() {
-  var taskId = this.id.replace('view-button-', '');
-  this.parentNode.childNodes.forEach(cn => { cn.setAttribute('style', 'display: inline-block')});
+  const taskId = this.id.replace('view-button-', '');
+  toggleTaskDisplayDetails(taskId);
+  clearJumbotron();
+  buildProjectsHtml();
 }
 
 function deleteTaskButton() {
@@ -182,8 +197,7 @@ function saveNewProject() {
 }
 
 function toggleInputFieldOn() {
-  var inputFieldType;
-  if (this.id.includes('project')) { inputFieldType = 'project' } else { inputFieldType = 'task'};
+  if (this.id.includes('project')) { var inputFieldType = 'project' } else { var inputFieldType = 'task'};
   const projectId = this.id.replace('add-' + inputFieldType + '-button-span-', '');
   document.getElementById('add-' + inputFieldType + '-button-span-' + projectId).setAttribute('style', 'display: none');
   document.getElementById('add-' + inputFieldType + '-desc-span-' + projectId).setAttribute('style', 'display: none');

@@ -49,6 +49,16 @@ nav li a:hover {
 #checkBox:hover {
   cursor: pointer;
 }
+.hide-details > .task-desc-span,
+.hide-details > .task-priority-span,
+.hide-details > .task-due-date-span {
+  display: none;
+}
+.show-details > .task-desc-span,
+.show-details > .task-priority-span,
+.show-details > .task-due-date-span {
+  display: inline;
+}
 .task-ul, .project-div {
   list-style: none;
   margin-left: 0;
@@ -76,14 +86,11 @@ nav li a:hover {
 .task-span  , .task-list-description {
   margin-left: 10px;
 }
-.task-list-description-complete {
-  text-decoration: line-through;
-}
 #add-project-div > input {
   margin-left: 10px;
 }
-
-.task-span.complete {
+.task-description-li.complete > .task-title-span,
+.task-description-li.complete > .task-desc-span {
   text-decoration: line-through;
 }
 
@@ -135,7 +142,6 @@ button:hover {
 .add-project-button-span > svg {
   color: rgb(111, 111, 222);
 }
-
 .add-task-button-span > svg:hover,
 .add-project-button-span > svg:hover {
   color: black;
@@ -143,7 +149,6 @@ button:hover {
   border-radius: 100%;
   cursor: pointer;
 }
-
 #add-new-project-div.project-div {
   background-color: rgb(250,199,177);
 }
