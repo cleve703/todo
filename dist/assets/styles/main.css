@@ -26,6 +26,7 @@ nav li {
   float: left;
 }
 nav li a {
+  font-family: 'Orbitron', sans-serif;
   display: block;
   color: rgb(40, 40, 141);
   text-align: center;
@@ -92,6 +93,13 @@ nav li a:hover {
 #add-project-div > input {
   margin-left: 10px;
 }
+.task-desc-span,
+.task-priority-span,
+.task-due-date-span {
+  font-size: medium;
+  color: rgb(40, 40, 40);
+}
+
 .task-description-li.complete > .task-title-span,
 .task-description-li.complete > .task-desc-span {
   text-decoration: line-through;
