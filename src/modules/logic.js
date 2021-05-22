@@ -48,8 +48,17 @@ function getTaskIndex(taskId) {
   return allTasks.indexOf(allTasks.find(t => t.id == taskId));
 }
 
+function modifyTask(taskId, title, description, priority, dueDate) {
+  const thisTask = allTasks[getTaskIndex(taskId)];
+  thisTask.title = title;
+  thisTask.description = description;
+  thisTask.priority = priority;
+  thisTask.dueDate = dueDate;
+  console.log(thisTask);
+}
+
 function deleteTask(taskId) {
   allTasks.splice(getTaskIndex(taskId), 1);
 }
 
-export {allProjects, allTasks, createProject, createTask, initProjects, toggleTaskComplete, toggleTaskDisplayDetails, getTaskIndex, deleteTask }
+export {allProjects, allTasks, createProject, createTask, initProjects, toggleTaskComplete, toggleTaskDisplayDetails, getTaskIndex, modifyTask, deleteTask }

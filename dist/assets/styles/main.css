@@ -3,6 +3,9 @@ body {
   font-size: x-large;
   margin: 0;
 }
+h5 {
+  margin: 0;
+}
 #container {
   display: grid;
   grid-template-columns: 1fr 3fr;
@@ -99,11 +102,11 @@ nav li a:hover {
 }
 
 
-.add-task-form-li > * {
+.task-form-li > * {
   border-radius: 5px;
   /* height: 40px; */
 }
-.add-task-form-div {
+.task-form-div {
   margin-left: 25px;
   padding: 10px;
   background-color: mistyrose;
@@ -111,13 +114,16 @@ nav li a:hover {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   overflow: hidden;
-  width: 100%;
+  width: 80%;
   grid-gap: 5px;
 }
-.add-task-form-title-input {
+.form-heading {
   grid-column: 1 / 5;
 }
-.add-task-form-description-input {
+.task-form-title-input {
+  grid-column: 1 / 5;
+}
+.task-form-description-input {
   grid-column: 1 / 5;
 }
 .select-task-priority {

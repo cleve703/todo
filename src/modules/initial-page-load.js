@@ -1,4 +1,4 @@
-import { allProjects, allTasks, toggleTaskComplete, toggleDisplayDetails, createTask, createProject, getTaskIndex, deleteTask, toggleTaskDisplayDetails } from './logic'
+import { allProjects, allTasks, toggleTaskComplete, toggleDisplayDetails, createTask, createProject, getTaskIndex, deleteTask, toggleTaskDisplayDetails, modifyTask } from './logic'
 
 function buildProjectsHtml () {
   let mainScreen = document.getElementById('jumbotron');
@@ -104,8 +104,9 @@ function createTaskLi(t) {
 function displayEditForm() {
   const taskId = this.id.replace('edit-button-','');
   const taskLi = this.parentNode;
+  const taskUl = taskLi.parentNode;
   const editForm = createEditForm('task', taskId);
-  taskLi.appendChild(editForm);
+  taskUl.appendChild(editForm);
 }
 
 function displayTaskDetails() {
@@ -135,14 +136,16 @@ function createInputPrompt(formObjectType, formObjectId) {
   }
   
   function createInputForm(formObjectType, formObjectId) {
-    const thisFormLi = createHtmlElement('li', 'add-' + formObjectType + '-form-li', 'add-' + formObjectType + '-form-li-' + formObjectId);
+    const thisFormLi = createHtmlElement('li', formObjectType + '-form-li', 'add-' + formObjectType + '-form-li-' + formObjectId);
     thisFormLi.setAttribute('style', 'display: none');
-    const thisForm = createHtmlElement('div', 'add-' + formObjectType + '-form-div', 'add-' + formObjectType + 'form-div-' + formObjectId);
-    const addFormTitleInput = createHtmlElement('input', 'add-' + formObjectType + '-form-title-input', 'add-' + formObjectType + '-form-title-input-' + formObjectId);
+    const thisForm = createHtmlElement('div', formObjectType + '-form-div', 'add-' + formObjectType + '-form-div-' + formObjectId);
+    const thisFormHeading = createHtmlElement('h5', 'form-heading', 'form-heading-' + formObjectType + '-' + formObjectId);
+    thisFormHeading.textContent = `Create new ${formObjectType}`;
+    const addFormTitleInput = createHtmlElement('input', formObjectType + '-form-title-input', 'add-' + formObjectType + '-form-title-input-' + formObjectId);
     addFormTitleInput.setAttribute('type', 'text');
     addFormTitleInput.setAttribute('name', 'new-' + formObjectType + '-title');
     addFormTitleInput.setAttribute('placeholder', 'Title');
-    const addFormDescriptionInput = createHtmlElement('input', 'add-' + formObjectType + '-form-description-input', 'add-' + formObjectType + '-form-description-input-' + formObjectId);
+    const addFormDescriptionInput = createHtmlElement('input', formObjectType + '-form-description-input', 'add-' + formObjectType + '-form-description-input-' + formObjectId);
     addFormDescriptionInput.setAttribute('type', 'text');
     addFormDescriptionInput.setAttribute('name', 'new-' + formObjectType + '-description');
     addFormDescriptionInput.setAttribute('placeholder', 'Description');
@@ -174,6 +177,7 @@ function createInputPrompt(formObjectType, formObjectId) {
     addFormCancelButton.setAttribute('type', 'button');
     addFormCancelButton.addEventListener('click', toggleInputFieldOff);
     thisFormLi.appendChild(thisForm);
+    thisForm.appendChild(thisFormHeading);
     thisForm.appendChild(addFormTitleInput);
     if (formObjectType == 'task') {
       thisForm.appendChild(addFormDescriptionInput);
@@ -192,14 +196,16 @@ function createEditForm(formObjectType, formObjectId) {
   } else if (formObjectType == 'project') {
     thisObject = allProjects[formObjectId]
   };
-  const thisFormLi = createHtmlElement('li', 'edit-' + formObjectType + '-form-li', 'edit-' + formObjectType + '-form-li-' + formObjectId);
+  const thisFormLi = createHtmlElement('li', formObjectType + '-form-li', 'edit-' + formObjectType + '-form-li-' + formObjectId);
   // thisFormLi.setAttribute('style', 'display: none');
-  const thisForm = createHtmlElement('div', 'edit-' + formObjectType + '-form-div', 'edit-' + formObjectType + 'form-div-' + formObjectId);
-  const addFormTitleInput = createHtmlElement('input', 'edit-' + formObjectType + '-form-title-input', 'edit-' + formObjectType + '-form-title-input-' + formObjectId);
+  const thisForm = createHtmlElement('div', formObjectType + '-form-div', 'edit-' + formObjectType + '-form-div-' + formObjectId);
+  const thisFormHeading = createHtmlElement('h5', 'form-heading', 'form-heading-' + formObjectType + '-' + formObjectId);
+  thisFormHeading.textContent = `Edit ${formObjectType}`;
+  const addFormTitleInput = createHtmlElement('input', formObjectType + '-form-title-input', 'edit-' + formObjectType + '-form-title-input-' + formObjectId);
   addFormTitleInput.setAttribute('type', 'text');
   addFormTitleInput.setAttribute('name', 'new-' + formObjectType + '-title');
   addFormTitleInput.setAttribute('value', thisObject.title);
-  const addFormDescriptionInput = createHtmlElement('input', 'edit-' + formObjectType + '-form-description-input', 'edit-' + formObjectType + '-form-description-input-' + formObjectId);
+  const addFormDescriptionInput = createHtmlElement('input', formObjectType + '-form-description-input', 'edit-' + formObjectType + '-form-description-input-' + formObjectId);
   addFormDescriptionInput.setAttribute('type', 'text');
   addFormDescriptionInput.setAttribute('name', 'new-' + formObjectType + '-description');
   addFormDescriptionInput.setAttribute('value', thisObject.description);
@@ -231,6 +237,7 @@ function createEditForm(formObjectType, formObjectId) {
   addFormCancelButton.setAttribute('type', 'button');
   addFormCancelButton.addEventListener('click', toggleInputFieldOff);
   thisFormLi.appendChild(thisForm);
+  thisForm.appendChild(thisFormHeading);
   thisForm.appendChild(addFormTitleInput);
   if (formObjectType == 'task') {
     thisForm.appendChild(addFormDescriptionInput);
@@ -243,7 +250,14 @@ function createEditForm(formObjectType, formObjectId) {
 }
 
 function updateTask() {
-  console.log(this);
+  const taskId = this.parentNode.id.replace('edit-task-form-div-', '');
+  const title = this.parentNode.childNodes[1].value;
+  const description = this.parentNode.childNodes[2].value;
+  const priority = this.parentNode.childNodes[3].value;
+  const dueDate = this.parentNode.childNodes[4].value;
+  modifyTask(taskId, title, description, priority, dueDate);
+  clearJumbotron();
+  buildProjectsHtml();
 }
 
 function updateProject() {
@@ -273,7 +287,7 @@ function toggleInputFieldOn() {
   const projectId = this.id.replace('add-' + inputFieldType + '-button-span-', '');
   document.getElementById('add-' + inputFieldType + '-button-span-' + projectId).setAttribute('style', 'display: none');
   document.getElementById('add-' + inputFieldType + '-desc-span-' + projectId).setAttribute('style', 'display: none');
-  document.getElementById('add-' + inputFieldType + '-form-li-' + projectId).setAttribute('style', 'display: inline-flex')
+  document.getElementById('add-' + inputFieldType + '-form-li-' + projectId).setAttribute('style', 'display: inline');
 }
 
 function toggleInputFieldOff() {
