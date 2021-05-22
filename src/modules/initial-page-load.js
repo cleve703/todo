@@ -107,6 +107,7 @@ function displayEditForm() {
   const taskUl = taskLi.parentNode;
   const editForm = createEditForm('task', taskId);
   taskUl.appendChild(editForm);
+  this.removeEventListener('click', displayEditForm);
 }
 
 function displayTaskDetails() {
@@ -235,7 +236,7 @@ function createEditForm(formObjectType, formObjectId) {
   const addFormCancelButton = createHtmlElement('input', 'button cancel-button', 'cancel-button-' + formObjectType + '-' + formObjectId);
   addFormCancelButton.setAttribute('value', 'Cancel');
   addFormCancelButton.setAttribute('type', 'button');
-  addFormCancelButton.addEventListener('click', toggleInputFieldOff);
+  addFormCancelButton.addEventListener('click', toggleEditFieldOff);
   thisFormLi.appendChild(thisForm);
   thisForm.appendChild(thisFormHeading);
   thisForm.appendChild(addFormTitleInput);
@@ -247,6 +248,12 @@ function createEditForm(formObjectType, formObjectId) {
   thisForm.appendChild(addFormSubmitButton);
   thisForm.appendChild(addFormCancelButton);
   return thisFormLi;
+}
+
+function toggleEditFieldOff() {
+  const taskId = this.id.replace('cancel-button-task-', '');
+  this.parentNode.setAttribute('style', 'display: none');
+  document.getElementById('edit-button-' + taskId).addEventListener('click', displayEditForm)
 }
 
 function updateTask() {
