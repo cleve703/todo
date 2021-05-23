@@ -58,6 +58,10 @@ nav li a:hover {
 .hide-details > .task-due-date-span {
   display: none;
 }
+.project-hr {
+  margin-top: 1px;
+  color: lightgray;
+}
 .show-details > .task-desc-span,
 .show-details > .task-priority-span,
 .show-details > .task-due-date-span {
