@@ -1,51 +1,70 @@
-import { allProjects, allTasks, toggleTaskComplete, toggleDisplayDetails, createTask, createProject, getTaskIndex, deleteTask, toggleTaskDisplayDetails, modifyTask, deleteProject, modifyProject } from './logic'
+import { allProjects, allTasks, toggleTaskComplete, toggleDisplayDetails, createTask, createProject, getTaskIndex, deleteTask, toggleTaskDisplayDetails, modifyTask, deleteProject, modifyProject, projectDisplayToggle, projectDisplayAll } from './logic'
 
-function buildProjectsHtml () {
+function buildProjectsHtml (projectFilter='all') {
   const mainScreen = document.getElementById('jumbotron');
   // create list to contain all projects as li and sublist for each set of tasks
   const projectList = createHtmlElement('ul', 'project-list', 'project-list');
+  const projectSelectorList = document.getElementById('project-selector');
+  const projectLinkAll = createHtmlElement('li', 'project-link display', 'project-link-all');
+  projectLinkAll.textContent = 'View all projects';
+  projectLinkAll.addEventListener('click', filterProjectList)
+  projectSelectorList.appendChild(projectLinkAll);
   mainScreen.appendChild(projectList);
+  
   allProjects.forEach(e => {
-    // create list item for each project
-    const project = createHtmlElement('li', 'project-li', 'project-li-' + e.id);
-    projectList.appendChild(project);
-
-    // create div for each project
-    const projectDiv = createHtmlElement('div', 'project-div', 'project-div-' + e.id);
-    project.appendChild(projectDiv);
-
-    // create project description as span
-    const projectNameSpan = createHtmlElement('span', 'project-name', 'project-name-' + e.id);
-    projectNameSpan.textContent = e.title;
-    projectDiv.appendChild(projectNameSpan);
-    
-    // create edit icon for each project
-    const editButton = createHtmlElement('button', 'edit-button', 'edit-project-button-' + e.id);
-    const editSVG = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>';
-    editButton.innerHTML = editSVG;
-    editButton.addEventListener('click', editProjectButton);
-
-    // create delete icon for each project
-    const deleteButton = createHtmlElement('button', 'delete-button', 'delete-project-button-' + e.id);
-    const deleteSVG = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>';
-    deleteButton.innerHTML = deleteSVG;
-    deleteButton.addEventListener('click', deleteProjectButton);
-    
-    projectDiv.appendChild(editButton);
-    projectDiv.appendChild(deleteButton);
-    const projectHR = createHtmlElement('hr', 'project-hr', 'project-hr-' + e.id);
-    projectDiv.appendChild(projectHR);
-    // create nested ul of tasks for each project
-    const projectUl = createHtmlElement('ul', 'project-task-list', 'project-task-list-' + e.id);
-    projectDiv.appendChild(projectUl);
-    // add li for each task within each nested ul
-    const projectTaskArray = buildTaskArray(e.id);
-    buildTaskList(projectTaskArray, projectUl);
-    // add li for adding a new task
-    const newTaskPrompt = createInputPrompt('task', e.id);
-    const newTaskForm = createInputForm('task', e.id);
-    projectUl.appendChild(newTaskPrompt);     
-    projectUl.appendChild(newTaskForm);
+    // create link for left-menu
+    const projectLink = createHtmlElement('li', 'project-link display', 'project-link-' + e.id);
+    projectLink.textContent = e.title;
+    projectLink.addEventListener('click', filterProjectList);
+    if (e.display == true) {
+      projectLink.className = 'project-link display'
+      console.log(projectLink.class);
+    } else {
+      projectLink.className = 'project-link'
+    };
+    projectSelectorList.appendChild(projectLink);
+    if (e.display == true) {
+      // create list item for each project
+      const project = createHtmlElement('li', 'project-li', 'project-li-' + e.id);
+      projectList.appendChild(project);
+  
+      // create div for each project
+      const projectDiv = createHtmlElement('div', 'project-div', 'project-div-' + e.id);
+      project.appendChild(projectDiv);
+  
+      // create project description as span
+      const projectNameSpan = createHtmlElement('span', 'project-name', 'project-name-' + e.id);
+      projectNameSpan.textContent = e.title;
+      projectDiv.appendChild(projectNameSpan);
+      
+      // create edit icon for each project
+      const editButton = createHtmlElement('button', 'edit-button', 'edit-project-button-' + e.id);
+      const editSVG = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>';
+      editButton.innerHTML = editSVG;
+      editButton.addEventListener('click', editProjectButton);
+  
+      // create delete icon for each project
+      const deleteButton = createHtmlElement('button', 'delete-button', 'delete-project-button-' + e.id);
+      const deleteSVG = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>';
+      deleteButton.innerHTML = deleteSVG;
+      deleteButton.addEventListener('click', deleteProjectButton);
+      
+      projectDiv.appendChild(editButton);
+      projectDiv.appendChild(deleteButton);
+      const projectHR = createHtmlElement('hr', 'project-hr', 'project-hr-' + e.id);
+      projectDiv.appendChild(projectHR);
+      // create nested ul of tasks for each project
+      const projectUl = createHtmlElement('ul', 'project-task-list', 'project-task-list-' + e.id);
+      projectDiv.appendChild(projectUl);
+      // add li for each task within each nested ul
+      const projectTaskArray = buildTaskArray(e.id);
+      buildTaskList(projectTaskArray, projectUl);
+      // add li for adding a new task
+      const newTaskPrompt = createInputPrompt('task', e.id);
+      const newTaskForm = createInputForm('task', e.id);
+      projectUl.appendChild(newTaskPrompt);     
+      projectUl.appendChild(newTaskForm);
+    }
 
   });
   const addNewProject = createHtmlElement('li', 'project-li', 'add-new-project-li');
@@ -69,7 +88,7 @@ function editProjectButton() {
     if (e.key === 'Enter') {
       var newProjectName = projectNameField.innerHTML;
       modifyProject(projectId, newProjectName);
-      clearJumbotron();
+      clearAll();
       buildProjectsHtml();
     }
   });
@@ -78,8 +97,15 @@ function editProjectButton() {
 function deleteProjectButton() {
   var projectId = this.id.replace('delete-project-button-', '');
   deleteProject(projectId);
-  clearJumbotron();
+  clearAll();
   buildProjectsHtml();
+}
+
+function filterProjectList() { 
+  const selector = this.id.replace('project-link-','');
+  projectDisplayToggle(selector);
+  clearAll();
+  buildProjectsHtml(selector);
 }
 
 function buildTaskList(projectTaskArray, projectUl) {
@@ -156,14 +182,14 @@ function displayEditForm() {
 function displayTaskDetails() {
   const taskId = this.id.replace('view-button-', '');
   toggleTaskDisplayDetails(taskId);
-  clearJumbotron();
+  clearAll();
   buildProjectsHtml();
 }
 
 function deleteTaskButton() {
   var taskId = this.id.replace('delete-button-', '');
   deleteTask(taskId);
-  clearJumbotron();
+  clearAll();
   buildProjectsHtml();
 }
 
@@ -306,7 +332,7 @@ function updateTask() {
   const priority = this.parentNode.childNodes[3].value;
   const dueDate = this.parentNode.childNodes[4].value;
   modifyTask(taskId, title, description, priority, dueDate);
-  clearJumbotron();
+  clearAll();
   buildProjectsHtml();
 }
 
@@ -321,14 +347,14 @@ function saveNewTask() {
   var newTaskPriority = document.getElementById('select-task-priority-'+ projectId).value;
   var newTaskDueDate = document.getElementById('input-date-' + projectId).value;
   createTask(newTaskTitle, newTaskDescription, newTaskPriority, newTaskDueDate, projectId);
-  clearJumbotron();
+  clearAll();
   buildProjectsHtml();
 }
 
 function saveNewProject() {
   var newTaskDescription = document.getElementById('add-project-form-title-input-0').value;
   createProject(newTaskDescription);
-  clearJumbotron();
+  clearAll();
   buildProjectsHtml();
 }
 
@@ -359,12 +385,24 @@ function createHtmlElement(elementName, elementClass, elementId) {
 function toggleCompletion() {
   var taskId = this.id.replace('checkbox-span-', '');
   toggleTaskComplete(taskId);
-  clearJumbotron();
+  clearAll();
   buildProjectsHtml();
+}
+
+function clearAll() {
+  clearLeftMenu();
+  clearJumbotron();
 }
 
 function clearJumbotron() {
   const parent = document.getElementById('jumbotron');
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild);
+  }
+}
+
+function clearLeftMenu() {
+  const parent = document.getElementById('project-selector');
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild);
   }

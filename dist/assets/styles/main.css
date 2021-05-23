@@ -34,8 +34,8 @@ nav li a {
   text-decoration: none;
 }
 nav li a:hover {
-  background-color: rgb(39, 56, 133);
-  color:white;
+  background-color: rgb(170, 170, 230);
+  color:rgb(30, 30, 222);
 }
 #left-menu > *, #jumbotron > * {
   margin: 15px;
@@ -112,7 +112,15 @@ nav li a:hover {
 .project {
   padding: 120px;
 }
-
+.project-link {
+  margin: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  background: palevioletred
+}
+.project-link.display {
+  background: palegreen;
+}
 
 .task-form-li > * {
   border-radius: 5px;

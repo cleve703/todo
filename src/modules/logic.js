@@ -8,6 +8,7 @@ function createProject(title, id=projectCounter) {
   project.id = id;
   project.title = title;
   project.complete = false;
+  project.display = true;
   project.tasks = [];
   projectCounter++;
   allProjects.push(project);
@@ -74,4 +75,23 @@ function deleteTask(taskId) {
   allTasks.splice(getTaskIndex(taskId), 1);
 }
 
-export {allProjects, allTasks, createProject, createTask, initProjects, toggleTaskComplete, toggleTaskDisplayDetails, getTaskIndex, modifyTask, deleteTask, deleteProject, modifyProject }
+function projectDisplayToggle(projectId) {
+  const thisProject = allProjects[getProjectIndex(projectId)];
+  if (projectId == 'all') {
+    allProjects.forEach( p=> { p.display = true })
+  } else {
+    if (thisProject.display == true) {
+      thisProject.display = false 
+    } else { 
+      thisProject.display = true 
+    };
+  }
+}
+
+function projectDisplayAll() {
+  allProjects.forEach(
+    p => { p.display = true }
+  )
+}
+
+export {allProjects, allTasks, createProject, createTask, initProjects, toggleTaskComplete, toggleTaskDisplayDetails, getTaskIndex, modifyTask, deleteTask, deleteProject, modifyProject, projectDisplayToggle, projectDisplayAll }
