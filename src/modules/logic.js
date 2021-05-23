@@ -56,6 +56,11 @@ function deleteProject(projectId) {
   allProjects.splice(getProjectIndex(projectId), 1);
 }
 
+function modifyProject(projectId, title) {
+  const thisProject = allProjects[getProjectIndex(projectId)];
+  thisProject.title = title;
+}
+
 function modifyTask(taskId, title, description, priority, dueDate) {
   const thisTask = allTasks[getTaskIndex(taskId)];
   thisTask.title = title;
@@ -69,4 +74,4 @@ function deleteTask(taskId) {
   allTasks.splice(getTaskIndex(taskId), 1);
 }
 
-export {allProjects, allTasks, createProject, createTask, initProjects, toggleTaskComplete, toggleTaskDisplayDetails, getTaskIndex, modifyTask, deleteTask, deleteProject }
+export {allProjects, allTasks, createProject, createTask, initProjects, toggleTaskComplete, toggleTaskDisplayDetails, getTaskIndex, modifyTask, deleteTask, deleteProject, modifyProject }
