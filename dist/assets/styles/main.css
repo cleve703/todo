@@ -37,6 +37,13 @@ nav li a:hover {
   background-color: rgb(170, 170, 230);
   color:rgb(30, 30, 222);
 }
+.clear-localstorage {
+  background-color: lightblue;
+  margin-top: 13px;
+  box-shadow: gray 4px 5px;
+  margin-left: 20px;
+  outline: rgb(244, 244, 244) outset 3px;
+}
 #left-menu > *, #jumbotron > * {
   margin: 15px;
 }
