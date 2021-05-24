@@ -123,6 +123,13 @@ function buildTaskList(projectTaskArray, projectUl) {
     // taskDescSpan.setAttribute('style', 'display: none');
     const taskPrioritySpan = createHtmlElement('span', 'task-priority-span task-span', 'task-priority-span-' + t.id);
     taskPrioritySpan.textContent = t.priority;
+    if (t.priority == 'Priority 1') {
+      taskLi.className += ' priority-one'
+    } else if (t.priority == 'Priority 2') {
+      taskLi.className += ' priority-two'
+    } else if (t.priority == 'Priority 3') {
+      taskLi.className += ' priority-three'
+    }
     // taskPrioritySpan.setAttribute('style', 'display: none');
     const taskDueDateSpan = createHtmlElement('span', 'task-due-date-span task-span', 'task-due-date-span-' + t.id);
     taskDueDateSpan.textContent = t.dueDate;

@@ -122,7 +122,18 @@ nav li a:hover {
 .project-link.display {
   background: palegreen;
 }
-
+.priority-one,
+.priority-one > * {
+  color: red;
+}
+.priority-two,
+.priority-two > * {
+  color: orange;
+}
+.priority-three,
+.priority-three > * {
+  color: green;
+}
 .task-form-li > * {
   border-radius: 5px;
   /* height: 40px; */
