@@ -30,11 +30,21 @@ function createTask(title, description, priority, dueDate, project, id=taskCount
 }
 
 function initProjects() {
+  var localAllProjects = localStorage.getItem('allProjects');
+  console.log(localAllProjects);
+  var localAllTasks = localStorage.getItem('allTasks');
+  console.log(localAllTasks);
+  var localProjectCounter = localStorage.getItem('projectCounter');
+  var localTaskCounter = localStorage.getItem('taskCounter');
+  
+  if ((localAllProjects !== undefined) && (localAllProjects !== null)) {allProjects = JSON.parse(localAllProjects)};
+  if ((localAllTasks !== undefined) && (localAllTasks !== null)) {allTasks = JSON.parse(localAllTasks)};
+  if ((localProjectCounter !== undefined) && (localProjectCounter !== null)) {projectCounter = JSON.parse(localProjectCounter)};
+  if ((localTaskCounter !== undefined) && (localTaskCounter !== null)) {taskCounter = JSON.parse(localTaskCounter)};
+
   if (allProjects.length == 0) {
     createProject('Welcome');
   }
 }
 
-
-
-export { allProjects, allTasks, createProject, createTask, initProjects }
+export { allProjects, allTasks, taskCounter, projectCounter, createProject, createTask, initProjects }

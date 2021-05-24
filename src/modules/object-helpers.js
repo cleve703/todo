@@ -1,4 +1,4 @@
-import  { allProjects, allTasks } from './object-logic'
+import  { allProjects, allTasks, projectCounter, taskCounter } from './object-logic'
 
 function toggleTaskComplete(taskId) {
   var task = allTasks.find(t => t.id == taskId);
@@ -59,4 +59,11 @@ function projectDisplayAll() {
   )
 }
 
-export {toggleTaskComplete, toggleTaskDisplayDetails, getTaskIndex, modifyTask, deleteTask, deleteProject, modifyProject, projectDisplayToggle, projectDisplayAll }
+function saveToLocalStorage() {
+  localStorage.setItem('allProjects', JSON.stringify(allProjects));
+  localStorage.setItem('allTasks', JSON.stringify(allTasks));
+  localStorage.setItem('projectCounter', JSON.stringify(projectCounter));
+  localStorage.setItem('taskCounter', JSON.stringify(taskCounter));
+}
+
+export {toggleTaskComplete, toggleTaskDisplayDetails, getTaskIndex, modifyTask, deleteTask, deleteProject, modifyProject, projectDisplayToggle, projectDisplayAll, saveToLocalStorage } 

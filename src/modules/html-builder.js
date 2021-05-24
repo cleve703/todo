@@ -1,5 +1,5 @@
 import { allProjects, allTasks, createTask, createProject } from './object-logic';
-import { toggleTaskComplete, deleteTask, toggleTaskDisplayDetails, modifyTask, deleteProject, modifyProject, projectDisplayToggle } from './object-helpers'
+import { toggleTaskComplete, deleteTask, toggleTaskDisplayDetails, modifyTask, deleteProject, modifyProject, projectDisplayToggle, saveToLocalStorage } from './object-helpers'
 
 
 function buildProjectsHtml () {
@@ -92,6 +92,8 @@ function editProjectButton() {
       modifyProject(projectId, newProjectName);
       clearAll();
       buildProjectsHtml();
+      saveToLocalStorage();
+
     }
   });
 };
@@ -101,6 +103,8 @@ function deleteProjectButton() {
   deleteProject(projectId);
   clearAll();
   buildProjectsHtml();
+  saveToLocalStorage();
+
 }
 
 function filterProjectList() { 
@@ -108,6 +112,8 @@ function filterProjectList() {
   projectDisplayToggle(selector);
   clearAll();
   buildProjectsHtml();
+  saveToLocalStorage();
+
 }
 
 function buildTaskList(projectTaskArray, projectUl) {
@@ -193,6 +199,8 @@ function displayTaskDetails() {
   toggleTaskDisplayDetails(taskId);
   clearAll();
   buildProjectsHtml();
+  saveToLocalStorage();
+
 }
 
 function deleteTaskButton() {
@@ -200,6 +208,8 @@ function deleteTaskButton() {
   deleteTask(taskId);
   clearAll();
   buildProjectsHtml();
+  saveToLocalStorage();
+
 }
 
 function createInputPrompt(formObjectType, formObjectId) {
@@ -365,6 +375,8 @@ function saveNewProject() {
   createProject(newTaskDescription);
   clearAll();
   buildProjectsHtml();
+  saveToLocalStorage();
+
 }
 
 function toggleInputFieldOn() {
@@ -396,6 +408,7 @@ function toggleCompletion() {
   toggleTaskComplete(taskId);
   clearAll();
   buildProjectsHtml();
+  saveToLocalStorage();
 }
 
 function clearAll() {
