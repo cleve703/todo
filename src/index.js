@@ -1,5 +1,5 @@
-import { initProjects } from './modules/logic';
-import { buildProjectsHtml } from './modules/initial-page-load';
+import { initProjects } from './modules/object-logic';
+import { buildProjectsHtml } from './modules/html-builder';
 
 
 initProjects();

@@ -1,6 +1,8 @@
-import { allProjects, allTasks, toggleTaskComplete, toggleDisplayDetails, createTask, createProject, getTaskIndex, deleteTask, toggleTaskDisplayDetails, modifyTask, deleteProject, modifyProject, projectDisplayToggle, projectDisplayAll } from './logic'
+import { allProjects, allTasks, createTask, createProject } from './object-logic';
+import { toggleTaskComplete, deleteTask, toggleTaskDisplayDetails, modifyTask, deleteProject, modifyProject, projectDisplayToggle } from './object-helpers'
 
-function buildProjectsHtml (projectFilter='all') {
+
+function buildProjectsHtml () {
   const mainScreen = document.getElementById('jumbotron');
   // create list to contain all projects as li and sublist for each set of tasks
   const projectList = createHtmlElement('ul', 'project-list', 'project-list');
@@ -105,7 +107,7 @@ function filterProjectList() {
   const selector = this.id.replace('project-link-','');
   projectDisplayToggle(selector);
   clearAll();
-  buildProjectsHtml(selector);
+  buildProjectsHtml();
 }
 
 function buildTaskList(projectTaskArray, projectUl) {
