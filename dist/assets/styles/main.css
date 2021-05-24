@@ -39,8 +39,9 @@ nav li a:hover {
 }
 .clear-localstorage {
   background-color: lightblue;
-  margin-top: 13px;
+  height: 40px;
   box-shadow: gray 4px 5px;
+  margin-top: 15px;
   margin-left: 20px;
   outline: rgb(244, 244, 244) outset 3px;
 }
@@ -73,6 +74,15 @@ nav li a:hover {
 .show-details > .task-priority-span,
 .show-details > .task-due-date-span {
   display: inline;
+}
+.logo * {
+  font-size: xx-large;
+  padding-top:10px;
+}
+li:not(.logo) > a {
+  padding-top: 18px;
+  font-family: 'Cinzel';
+  height: 72px;
 }
 .task-ul, .project-div {
   list-style: none;
@@ -123,11 +133,14 @@ nav li a:hover {
   margin: 10px;
   padding: 5px;
   border-radius: 5px;
-  background: palevioletred;
+  background: rgb(234, 156, 182);
   border: solid 1px gray;
 }
+.project-form-div > * {
+  margin-left: 5px;
+}
 .project-link.display {
-  background: palegreen;
+  background: rgb(166, 236, 166);
 }
 .priority-one,
 .priority-one > * {
