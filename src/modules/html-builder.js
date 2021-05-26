@@ -229,15 +229,18 @@ function createInputPrompt(formObjectType, formObjectId) {
     thisFormLi.setAttribute('style', 'display: none');
     const thisForm = createHtmlElement('div', formObjectType + '-form-div', 'add-' + formObjectType + '-form-div-' + formObjectId);
     const thisFormHeading = createHtmlElement('h5', 'form-heading', 'form-heading-' + formObjectType + '-' + formObjectId);
-    thisFormHeading.textContent = `Create new ${formObjectType}`;
+    thisFormHeading.textContent = `Enter new ${formObjectType} details`;
+    const addFormTitleInputLabel = createLabel(formObjectType + '-form-title-input-label', 'new-' + formObjectType + '-title', 'Title:')
     const addFormTitleInput = createHtmlElement('input', formObjectType + '-form-title-input', 'add-' + formObjectType + '-form-title-input-' + formObjectId);
     addFormTitleInput.setAttribute('type', 'text');
     addFormTitleInput.setAttribute('name', 'new-' + formObjectType + '-title');
     addFormTitleInput.setAttribute('placeholder', 'Title');
+    const addFormDescriptionInputLabel = createLabel(formObjectType + '-form-description-input-label', 'new-' + formObjectType + '-description', 'Description:');
     const addFormDescriptionInput = createHtmlElement('input', formObjectType + '-form-description-input', 'add-' + formObjectType + '-form-description-input-' + formObjectId);
     addFormDescriptionInput.setAttribute('type', 'text');
     addFormDescriptionInput.setAttribute('name', 'new-' + formObjectType + '-description');
     addFormDescriptionInput.setAttribute('placeholder', 'Description');
+    const priorityInputLabel = createLabel('select-task-priority-label', 'task-priority', 'Priority:')
     const priorityInput = createHtmlElement('select', 'select-' + formObjectType + '-priority', 'select-' + formObjectType + '-priority-' + formObjectId);
     const optionP1 = createHtmlElement('option', 'select-priority-option', 'select-priority-option-1-project-' + formObjectId);
     optionP1.textContent = 'Priority 1';
@@ -248,6 +251,7 @@ function createInputPrompt(formObjectType, formObjectId) {
     priorityInput.appendChild(optionP1);
     priorityInput.appendChild(optionP2);    
     priorityInput.appendChild(optionP3);
+    const dueDateInputLabel = createLabel('input-due-date-label', 'due-date', 'Due date:');
     const dueDateInput = createHtmlElement('input', 'input-date', 'input-date-' + formObjectId);
     dueDateInput.setAttribute('type', 'date');
     dueDateInput.setAttribute('name', 'due-date');
@@ -267,15 +271,27 @@ function createInputPrompt(formObjectType, formObjectId) {
     addFormCancelButton.addEventListener('click', toggleInputFieldOff);
     thisFormLi.appendChild(thisForm);
     thisForm.appendChild(thisFormHeading);
+    thisForm.appendChild(addFormTitleInputLabel);
     thisForm.appendChild(addFormTitleInput);
     if (formObjectType == 'task') {
+      thisForm.appendChild(addFormDescriptionInputLabel)
       thisForm.appendChild(addFormDescriptionInput);
+      thisForm.appendChild(priorityInputLabel);
       thisForm.appendChild(priorityInput);
+      thisForm.appendChild(dueDateInputLabel);
       thisForm.appendChild(dueDateInput);
     };
     thisForm.appendChild(addFormSubmitButton);
     thisForm.appendChild(addFormCancelButton);
     return thisFormLi;
+}
+
+function createLabel(labelClass, labelFor, labelText) {
+  const thisLabel = document.createElement('label');
+  thisLabel.setAttribute('class', labelClass);
+  thisLabel.setAttribute('for', labelFor);
+  thisLabel.textContent = labelText;
+  return thisLabel;
 }
 
 function createEditForm(formObjectType, formObjectId) {

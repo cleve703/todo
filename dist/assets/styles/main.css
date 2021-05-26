@@ -1,3 +1,81 @@
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default padding */
+ul[class],
+ol[class] {
+  padding: 0;
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul[class],
+ol[class],
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+/* Remove list styles on ul, ol elements with a class attribute */
+ul[class],
+ol[class] {
+  list-style: none;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Natural flow and rhythm in articles by default */
+article > * + * {
+  margin-top: 1em;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Remove all animations and transitions for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 body {
   font-family: sans-serif;
   font-size: x-large;
@@ -165,11 +243,20 @@ li:not(.logo) > a {
   border: solid 1px cornflowerblue;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto 20px auto 20px auto 20px auto;
   overflow: hidden;
   width: 80%;
   grid-gap: 5px;
 }
 .form-heading {
+  grid-column: 1 / 5;
+}
+.task-form-title-input-label {
+  font-size: 15px;
+  grid-column: 1 / 5;
+}
+.task-form-description-input-label {
+  font-size: 15px;
   grid-column: 1 / 5;
 }
 .task-form-title-input {
@@ -178,8 +265,20 @@ li:not(.logo) > a {
 .task-form-description-input {
   grid-column: 1 / 5;
 }
+.select-task-priority-label {
+  font-size: 15px;
+  grid-column: 1 / 2;
+}
 .select-task-priority {
   grid-column: 1 / 2;
+}
+.input-due-date-label {
+  grid-row: 6;
+  font-size: 15px;
+  grid-column: 2 / 3;
+}
+.input-date {
+  grid-column: 2 / 3;
 }
 .project-name {
   font-weight: bold;
@@ -213,4 +312,14 @@ button:hover {
 .submit-button, .cancel-button {
   background-color: lightgray;
   border-radius: 5px;
+}
+.project-form-div {
+  display: grid;
+}
+.project-form-title-input-label {
+  grid-column: 1 / 2;
+  font-size: 15px;
+}
+.project-form-title-input {
+  grid-column: 1 / 2;
 }
