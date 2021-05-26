@@ -242,7 +242,7 @@ li:not(.logo) > a {
   background-color: mistyrose;
   border: solid 1px cornflowerblue;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 2fr 1fr 1fr;
   grid-template-rows: auto 20px auto 20px auto 20px auto;
   overflow: hidden;
   width: 80%;
